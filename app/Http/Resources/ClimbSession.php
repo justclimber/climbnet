@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
+/**
+ * @mixin \App\ClimbSession
+ */
 class ClimbSession extends Resource
 {
     /**
@@ -17,7 +20,7 @@ class ClimbSession extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'date' => $this->date,
+            'date' => $this->date->format("d.m.Y H:i"),
         ];
     }
 }
