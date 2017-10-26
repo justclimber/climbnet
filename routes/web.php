@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/climbs', 'ClimbSessionController@index');
+
+Route::get('/climbs/create', 'ClimbSessionController@create');
