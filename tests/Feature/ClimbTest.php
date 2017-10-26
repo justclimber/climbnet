@@ -7,11 +7,28 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ClimbTest extends TestCase
 {
-    public function testClimbs()
+    public function testClimbsIndex()
     {
         $response = $this->get('/climbs');
         $response
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data'
+            ]);
+
+        $climbsData = $response->original['data'];
+
+        $this->assertInternalType('array', $climbsData);
+
+        if (count($climbsData)) {
+            $response->assertJsonStructure([
+                'data' => [
+                    '*' => ['id', 'date', 'name']
+                ]
+            ]);
+        }
+
+
     }
 
     public function testClimbsCreate()

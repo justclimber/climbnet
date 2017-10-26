@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ClimbSession;
+use App\Http\Resources\ClimbSessionCollection;
 use Illuminate\Http\Request;
 
 class ClimbSessionController extends Controller
@@ -12,7 +13,7 @@ class ClimbSessionController extends Controller
      */
     public function index()
     {
-        return ClimbSession::all();
+        return new ClimbSessionCollection(ClimbSession::all());
     }
 
     /**
