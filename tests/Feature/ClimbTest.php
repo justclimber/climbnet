@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\ClimbSession;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ClimbTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testClimbsIndex()
     {
         $response = $this->get('/climbs');
@@ -31,10 +34,19 @@ class ClimbTest extends TestCase
 
     }
 
-    public function testClimbsCreate()
+    public function testClimbStore()
     {
-        $response = $this->get('/climbs/create');
+        $climbDataToTest = [
+            'name' => 'test name',
+            'date' => '2017-12-12 12:12:12'
+        ];
+        $response = $this->post('/climbs', $climbDataToTest);
         $response
+            ->assertJsonStructure(['id'])
             ->assertSuccessful();
+
+        $climb = ClimbSession::find($response->original['id']);
+        $this->assertNotNull($climb);
+        $this->assertEquals($climbDataToTest['name'], $climb->name);
     }
 }

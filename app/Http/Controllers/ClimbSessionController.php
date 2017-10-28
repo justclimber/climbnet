@@ -30,11 +30,18 @@ class ClimbSessionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => '',
+            'date' => 'required',
+        ]);
+
+        $climb = ClimbSession::create($data);
+
+        return ['id' => $climb->id];
     }
 
     /**

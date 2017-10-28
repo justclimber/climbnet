@@ -17,4 +17,4 @@ Route::get('/', function () {
 
 Route::get('/climbs', 'ClimbSessionController@index');
 
-Route::get('/climbs/create', 'ClimbSessionController@create');
+Route::post('/climbs', 'ClimbSessionController@store');

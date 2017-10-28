@@ -29,7 +29,10 @@
         },
         methods: {
             save() {
-                alert(this.name);
+                axios.post('/climbs', {
+                    name: this.name,
+                    date: '2018-12-12 12:12:12'
+                });
             }
         },
         mounted() {

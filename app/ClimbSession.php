@@ -16,4 +16,6 @@ class ClimbSession extends Model
         'updated_at',
         'date'
     ];
+
+    protected $guarded = [];
 }
