@@ -8,23 +8,19 @@
                 {{ climb.date }}: {{ climb.name }}
             </v-ons-list-item>
         </v-ons-list>
-        <v-ons-fab ripple position="bottom right">
-            <v-ons-icon icon="md-plus" @click="addClimb()"></v-ons-icon>
-        </v-ons-fab>
+        <router-link :to="{name: 'climb-save'}">
+            <v-ons-fab ripple position="bottom right">
+                <v-ons-icon icon="md-plus"></v-ons-icon>
+            </v-ons-fab>
+        </router-link>
     </v-ons-page>
 </template>
 
 <script>
-    import ClimbSave from './ClimbSave.vue';
     export default {
         data() {
             return {
                 climbs: []
-            }
-        },
-        methods: {
-            addClimb() {
-                this.$emit('push-page', ClimbSave);
             }
         },
         mounted() {

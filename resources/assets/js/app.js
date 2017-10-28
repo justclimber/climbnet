@@ -1,19 +1,18 @@
+import 'onsenui/css/onsenui.css'
+import 'onsenui/css/onsen-css-components.css'
+
 window.axios = require('axios');
 
 import Vue from 'vue';
 import VueOnsen from 'vue-onsenui';
-
-import ClimbList from './components/ClimbList.vue';
+import router from './router'
+import App from './App.vue'
 
 Vue.use(VueOnsen);
 
-window.Vue = Vue;
-
 new Vue({
     el: '#app',
-    data() {
-        return {
-            pages: [ClimbList]
-        };
-    }
-});
+    router,
+    template: '<App/>',
+    components: { App }
+})

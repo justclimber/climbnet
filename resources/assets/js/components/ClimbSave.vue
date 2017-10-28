@@ -6,6 +6,17 @@
             </div>
             <div class="center">Add a climb</div>
         </v-ons-toolbar>
+        <v-ons-list>
+            <v-ons-list-item>
+                <v-ons-input placeholder="Input name or place of climb there" float
+                             v-model="name"
+                >
+                </v-ons-input>
+            </v-ons-list-item>
+            <v-ons-list-item>
+                <v-ons-button @click="save">Save</v-ons-button>
+            </v-ons-list-item>
+        </v-ons-list>
     </v-ons-page>
 </template>
 
@@ -13,10 +24,13 @@
     export default {
         data() {
             return {
-                climbs: []
+                name: ''
             }
         },
         methods: {
+            save() {
+                alert(this.name);
+            }
         },
         mounted() {
             axios.get('/climbs')
@@ -24,3 +38,8 @@
         }
     }
 </script>
+<style scoped="">
+    ons-input {
+        width:100%;
+    }
+</style>
