@@ -12,6 +12,8 @@ class ClimbTest extends TestCase
 
     public function testClimbsIndex()
     {
+        $climbsToTest = factory(ClimbSession::class, 5)->create();
+
         $response = $this->get('/climbs');
         $response
             ->assertSuccessful()
@@ -23,30 +25,32 @@ class ClimbTest extends TestCase
 
         $this->assertInternalType('array', $climbsData);
 
-        if (count($climbsData)) {
-            $response->assertJsonStructure([
-                'data' => [
-                    '*' => ['id', 'date', 'name']
-                ]
-            ]);
+        foreach ($climbsData as $climbsDatum) {
+            $this->assertTrue($climbsToTest->contains($climbsDatum['id']));
+            $climb = $climbsToTest->find($climbsDatum['id']);
+            $this->assertEquals($climb->name, $climbsDatum['name']);
+            $this->assertEquals($climb->date->format('d.m.Y H:i'), $climbsDatum['date']);
         }
-
 
     }
 
     public function testClimbStore()
     {
-        $climbDataToTest = [
-            'name' => 'test name',
-            'date' => '2017-12-12 12:12:12'
-        ];
-        $response = $this->post('/climbs', $climbDataToTest);
+        $climbDummy = factory(ClimbSession::class)->make();
+        $response = $this->post('/climbs', [
+            'name' => $climbDummy->name,
+            'date' => $climbDummy->date->format('Y-m-d H:i')
+        ]);
         $response
             ->assertJsonStructure(['id'])
             ->assertSuccessful();
 
         $climb = ClimbSession::find($response->original['id']);
         $this->assertNotNull($climb);
-        $this->assertEquals($climbDataToTest['name'], $climb->name);
+        $this->assertEquals($climbDummy->name, $climb->name);
+        $this->assertEquals(
+            $climbDummy->date->format('Y-m-d H:i')
+            , $climb->date->format('Y-m-d H:i')
+        );
     }
 }

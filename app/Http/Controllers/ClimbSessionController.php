@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ClimbSession;
 use App\Http\Resources\ClimbSessionCollection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClimbSessionController extends Controller
@@ -38,6 +39,7 @@ class ClimbSessionController extends Controller
             'name' => '',
             'date' => 'required',
         ]);
+        $data['date'] = Carbon::createFromFormat('Y-m-d H:i', $data['date']);
 
         $climb = ClimbSession::create($data);
 
