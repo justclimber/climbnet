@@ -28,7 +28,10 @@
                 ></timepicker>
             </v-ons-list-item>
             <v-ons-list-item>
-                <v-ons-button @click="save">Save</v-ons-button>
+                <v-ons-button @click="goToNewRoute">Add Route</v-ons-button>
+            </v-ons-list-item>
+            <v-ons-list-item>
+                <v-ons-button @click="updateClimb">Save your climb session</v-ons-button>
             </v-ons-list-item>
         <!--</v-ons-list>-->
     </v-ons-page>
@@ -38,6 +41,7 @@
     import Vue from 'vue';
     import Datepicker from 'vuejs-datepicker';
     import VueTimepicker from 'vue2-timepicker'
+    import moment from 'moment';
 
     Vue.component('datepicker', Datepicker);
     Vue.component('timepicker', VueTimepicker);
@@ -59,21 +63,38 @@
             datetime() {
                 let date = new Date(this.date);
                 return date.toISOString().substring(0, 10) + ' ' + this.time.HH + ':' + this.time.mm;
-            }
+            },
         },
         methods: {
-            save() {
-                axios.post('/climbs', {
+            loadClimb(id) {
+                axios.get('/api/climbs/' + id).then(response => {
+                    let responseClimb = response.data.data;
+                    let date = moment(responseClimb.date, 'DD.MM.Y HH:mm').toDate();
+
+                    this.name = responseClimb.name;
+                    this.date = date;
+                    this.time = {
+                        HH: date.getHours(),
+                        mm: date.getMinutes(),
+                        ss: 0,
+                    };
+                })
+            },
+            updateClimb() {
+                axios.put('/api/climbs/' + this.id, {
                     name: this.name,
                     date: this.datetime
                 }).then(response => {
                     this.$router.push({name: 'climbs'});
                 });
+            },
+            goToNewRoute() {
+                this.$router.push({name: 'new-route', params: {climb_id: this.id}});
             }
         },
         mounted() {
-            axios.get('/climbs')
-                .then(response => this.climbs = response.data.data);
+            this.id = this.$route.params.id;
+            this.loadClimb(this.id);
         }
     }
 </script>

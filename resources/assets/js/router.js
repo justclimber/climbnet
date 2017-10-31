@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import ClimbList from './components/ClimbList.vue';
-import ClimbSave from './components/ClimbSave.vue';
 
 Vue.use(Router);
 
@@ -11,12 +9,19 @@ const router = new Router({
         {
             path: '/',
             name: 'climbs',
-            component: ClimbList,
+            component: require('./components/ClimbList'),
             children: [
                 {
-                    path: 'climb/save',
-                    name: 'climb-save',
-                    component: ClimbSave
+                    path: 'climbs/:id',
+                    name: 'climb',
+                    component: require('./components/ClimbSave'),
+                    children: [
+                        {
+                            path: 'routes/create',
+                            name: 'new-route',
+                            component: require('./components/ClimbedRoute')
+                        }
+                    ]
                 }
             ]
         }

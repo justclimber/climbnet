@@ -53,4 +53,27 @@ class ClimbTest extends TestCase
             $climb->date->format('Y-m-d H:i')
         );
     }
+
+    public function testClimbGet()
+    {
+        $climb = factory(ClimbSession::class)->create();
+        $response = $this->get('/climbs/' . $climb->id);
+        $response
+            ->assertJsonStructure(['data'])
+            ->assertSuccessful();
+
+        $climbData = $response->original['data'];
+        $this->assertEquals($climb->name, $climbData['name']);
+        $this->assertEquals(
+            $climb->date->format('d.m.Y H:i'),
+            $climbData['date']
+        );
+    }
+
+    public function testClimbGet404()
+    {
+        $this->get('/climbs/0')->assertStatus(404);
+        $this->get('/climbs/asd')->assertStatus(404);
+    }
+
 }

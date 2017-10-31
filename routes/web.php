@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('master');
-});
-
-Route::get('/climbs', 'ClimbSessionController@index');
-
-Route::post('/climbs', 'ClimbSessionController@store');
+Route::view('/', 'landing');
+Route::view('/climbs/{id}', 'landing');
+Route::view('/climbs/{id}/routes/{route_id}', 'landing');
