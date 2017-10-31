@@ -23,9 +23,22 @@
                 climbs: []
             }
         },
+        watch: {
+            '$route': 'routeChanged'
+        },
+        methods: {
+            routeChanged(route) {
+                if (route.name === 'climbs') {
+                    this.loadClimbs();
+                }
+            },
+            loadClimbs() {
+                axios.get('/climbs')
+                    .then(response => this.climbs = response.data.data);
+            }
+        },
         mounted() {
-            axios.get('/climbs')
-                .then(response => this.climbs = response.data.data);
+            this.loadClimbs()
         }
     }
 </script>

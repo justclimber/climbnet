@@ -49,8 +49,8 @@ class ClimbTest extends TestCase
         $this->assertNotNull($climb);
         $this->assertEquals($climbDummy->name, $climb->name);
         $this->assertEquals(
-            $climbDummy->date->format('Y-m-d H:i')
-            , $climb->date->format('Y-m-d H:i')
+            $climbDummy->date->format('Y-m-d H:i'),
+            $climb->date->format('Y-m-d H:i')
         );
     }
 }

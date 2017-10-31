@@ -67,7 +67,7 @@
                     name: this.name,
                     date: this.datetime
                 }).then(response => {
-                    this.$router.push({name: 'climbs'})
+                    this.$router.push({name: 'climbs'});
                 });
             }
         },
