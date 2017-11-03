@@ -14,7 +14,7 @@ class ClimbTest extends TestCase
     {
         $climbsToTest = factory(ClimbSession::class, 5)->create();
 
-        $response = $this->get('/climbs');
+        $response = $this->get('/api/climbs');
         $response
             ->assertSuccessful()
             ->assertJsonStructure([
@@ -37,7 +37,7 @@ class ClimbTest extends TestCase
     public function testClimbStore()
     {
         $climbDummy = factory(ClimbSession::class)->make();
-        $response = $this->post('/climbs', [
+        $response = $this->post('/api/climbs', [
             'name' => $climbDummy->name,
             'date' => $climbDummy->date->format('Y-m-d H:i')
         ]);
@@ -57,7 +57,7 @@ class ClimbTest extends TestCase
     public function testClimbGet()
     {
         $climb = factory(ClimbSession::class)->create();
-        $response = $this->get('/climbs/' . $climb->id);
+        $response = $this->get('/api/climbs/' . $climb->id);
         $response
             ->assertJsonStructure(['data'])
             ->assertSuccessful();
@@ -72,8 +72,8 @@ class ClimbTest extends TestCase
 
     public function testClimbGet404()
     {
-        $this->get('/climbs/0')->assertStatus(404);
-        $this->get('/climbs/asd')->assertStatus(404);
+        $this->get('/api/climbs/0')->assertStatus(404);
+        $this->get('/api/climbs/asd')->assertStatus(404);
     }
 
 }

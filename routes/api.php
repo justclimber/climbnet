@@ -11,3 +11,5 @@ Route::get('/climbs/{climbSession}', 'ClimbSessionController@show')
     ->where('climbSession', '[0-9]+');
 
 Route::post('/climbs', 'ClimbSessionController@store');
+
+Route::get('/settings', 'SettingsController@index');
