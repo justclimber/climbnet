@@ -94,8 +94,7 @@
                     date: this.datetime
                 }).then(response => {
                     this.$router.push({name: 'climb', params: {
-                        id: response.data.id,
-                        name: this.newClimb.name,
+                        id: response.data.id
                     }});
                     this.newClimbDialogVisible = false;
                 })

@@ -55,10 +55,21 @@ class ClimbTest extends TestCase
 
     public function testClimbGet()
     {
+        $climbedRoute = factory(\App\ClimbedRoute::class)->make();
         $climb = factory(ClimbSession::class)->create();
+        $climb->climbedRoutes()->save($climbedRoute);
+
         $response = $this->get('/api/climbs/' . $climb->id);
         $response
-            ->assertJsonStructure(['data'])
+            ->assertJsonStructure([
+                'data' => [
+                    'date',
+                    'name',
+                    'climbedRoutes' => [
+                        '*' => ['id', 'name', 'category_dict', 'proposed_category_dict']
+                    ]
+                ]
+            ])
             ->assertSuccessful();
 
         $climbData = $response->original['data'];
@@ -67,6 +78,11 @@ class ClimbTest extends TestCase
             $climb->date->format('d.m.Y H:i'),
             $climbData['date']
         );
+        $this->assertCount(1, $climbData['climbedRoutes']);
+        $climbedRouteData = $climbData['climbedRoutes'][0];
+        $this->assertEquals($climbedRoute['name'], $climbedRouteData['name']);
+        $this->assertEquals($climbedRoute['category_dict'], $climbedRouteData['category_dict']);
+        $this->assertEquals($climbedRoute['proposed_category_dict'], $climbedRouteData['proposed_category_dict']);
     }
 
     public function testClimbGet404()

@@ -28,6 +28,18 @@
                 ></timepicker>
             </v-ons-list-item>
             <v-ons-list-item>
+                <v-ons-list-header>
+                    Climbed routes in this session
+                </v-ons-list-header>
+            </v-ons-list-item>
+            <v-ons-list-item>
+                <ul>
+                    <li class="climbed-route-row" v-for="climbedRoute in climbedRoutes" :key="climbedRoute.id">
+                        {{ climbedRoute.name }} (original {{ category(climbedRoute.category_dict) }}, proposed {{ category(climbedRoute.proposed_category_dict) }})
+                    </li>
+                </ul>
+            </v-ons-list-item>
+            <v-ons-list-item>
                 <v-ons-button @click="goToNewRoute">Add Route</v-ons-button>
             </v-ons-list-item>
             <v-ons-list-item>
@@ -42,6 +54,7 @@
     import Datepicker from 'vuejs-datepicker';
     import VueTimepicker from 'vue2-timepicker'
     import moment from 'moment';
+    import { mapState } from 'vuex';
 
     Vue.component('datepicker', Datepicker);
     Vue.component('timepicker', VueTimepicker);
@@ -57,15 +70,20 @@
                     mm: now.getMinutes(),
                     ss: 0
                 },
+                climbedRoutes: []
             }
         },
         computed: {
+            ...mapState(['settings']),
             datetime() {
                 let date = new Date(this.date);
                 return date.toISOString().substring(0, 10) + ' ' + this.time.HH + ':' + this.time.mm;
             },
         },
         methods: {
+            category(category_dict) {
+                return this.settings.dicts.categories[category_dict];
+            },
             loadClimb(id) {
                 axios.get('/api/climbs/' + id).then(response => {
                     let responseClimb = response.data.data;
@@ -78,6 +96,7 @@
                         mm: date.getMinutes(),
                         ss: 0,
                     };
+                    this.climbedRoutes = responseClimb.climbedRoutes;
                 })
             },
             updateClimb() {
@@ -110,6 +129,8 @@
         .time-picker input.display-time {
             border: none;
         }
+    }
+    .climbed-route-row {
     }
     /*.vdp-datepicker__calendar {*/
         /*position: fixed !important;*/

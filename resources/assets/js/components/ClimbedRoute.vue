@@ -4,7 +4,7 @@
             <div class="left">
                 <v-ons-back-button>To climbs</v-ons-back-button>
             </div>
-            <div class="center">Add a climb</div>
+            <div class="center">Add a climbed route</div>
         </v-ons-toolbar>
         <v-ons-list>
             <v-ons-list-item>
@@ -20,6 +20,19 @@
                         {{ category }}
                     </option>
                 </v-ons-select>
+                <v-ons-list-header>
+                    Official route category
+                </v-ons-list-header>
+            </v-ons-list-item>
+            <v-ons-list-item>
+                <v-ons-select v-model="proposed_category_dict">
+                    <option v-for="category, index in settings.dicts.categories" :value="index">
+                        {{ category }}
+                    </option>
+                </v-ons-select>
+                <v-ons-list-header>
+                    Route category (your opinion)
+                </v-ons-list-header>
             </v-ons-list-item>
             <v-ons-list-item>
                 <v-ons-button @click="saveRoute">Save route</v-ons-button>
@@ -46,16 +59,39 @@
             return {
                 name: '',
                 category_dict: '',
+                proposed_category_dict: '',
             }
         },
         computed: mapState(['settings']),
         methods: {
             saveRoute() {
-
+                axios.post('/api/climbed-routes', {
+                    name: this.name,
+                    category_dict: this.category_dict,
+                    proposed_category_dict: this.proposed_category_dict,
+                    climb_session_id: this.$route.params.id
+                }).then(data => {
+                    this.$router.push({name: 'climb', params: {
+                        id: this.$route.params.id
+                    }});
+                    this.clear();
+                });
             },
             saveAndAddNewRoute() {
-
+                axios.post('/api/climbed-routes', {
+                    name: this.name,
+                    category_dict: this.category_dict,
+                    proposed_category_dict: this.proposed_category_dict,
+                    climb_session_id: this.$route.params.id
+                }).then(data => {
+                    this.clear();
+                })
             },
+            clear() {
+                this.name = '';
+                this.category_dict = '';
+                this.proposed_category_dict = '';
+            }
         },
     }
 </script>

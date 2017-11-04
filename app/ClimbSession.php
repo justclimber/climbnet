@@ -18,4 +18,9 @@ class ClimbSession extends Model
     ];
 
     protected $guarded = [];
+
+    public function climbedRoutes()
+    {
+        return $this->hasMany(ClimbedRoute::class);
+    }
 }

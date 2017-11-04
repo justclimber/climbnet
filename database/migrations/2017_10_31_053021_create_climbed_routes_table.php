@@ -15,13 +15,13 @@ class CreateClimbedRoutesTable extends Migration
     {
         Schema::create('climbed_routes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('text');
+            $table->string('name');
             $table->integer('climb_session_id');
             $table->integer('category_dict');
             $table->integer('proposed_category_dict');
-            $table->integer('route_type_dict');
-            $table->integer('ascent_type_dict');
-            $table->text('comment');
+            $table->integer('route_type_dict')->nullable();
+            $table->integer('ascent_type_dict')->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
