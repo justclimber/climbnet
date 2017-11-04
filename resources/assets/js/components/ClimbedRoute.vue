@@ -16,8 +16,8 @@
             </v-ons-list-item>
             <v-ons-list-item>
                 <v-ons-select v-model="category_dict">
-                    <option v-for="category in categoriesDict" :value="category.value">
-                        {{ category.text }}
+                    <option v-for="category, index in settings.dicts.categories" :value="index">
+                        {{ category }}
                     </option>
                 </v-ons-select>
             </v-ons-list-item>
@@ -36,6 +36,7 @@
     import Datepicker from 'vuejs-datepicker';
     import VueTimepicker from 'vue2-timepicker'
     import moment from 'moment';
+    import { mapState } from 'vuex';
 
     Vue.component('datepicker', Datepicker);
     Vue.component('timepicker', VueTimepicker);
@@ -45,19 +46,9 @@
             return {
                 name: '',
                 category_dict: '',
-                categoriesDict: [
-                    {value: 4, text: '6a'},
-                    {value: 5, text: '6a+'},
-                    {value: 6, text: '6b'},
-                    {value: 7, text: '6b+'},
-                    {value: 8, text: '6c'},
-                    {value: 9, text: '6c+'},
-                    {value: 10, text: '7a'},
-                ],
             }
         },
-        computed: {
-        },
+        computed: mapState(['settings']),
         methods: {
             saveRoute() {
 

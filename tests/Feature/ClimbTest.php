@@ -22,7 +22,6 @@ class ClimbTest extends TestCase
             ]);
 
         $climbsData = $response->original['data'];
-
         $this->assertInternalType('array', $climbsData);
 
         foreach ($climbsData as $climbsDatum) {

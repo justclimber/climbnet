@@ -35,6 +35,8 @@
             mapRouteStack(this.$route);
             /* On route change, reset the pageStack to the next route */
             this.$router.beforeEach((to, from, next) => mapRouteStack(to) && next());
+
+            this.$store.dispatch('loadSettings');
         }
     }
 </script>
