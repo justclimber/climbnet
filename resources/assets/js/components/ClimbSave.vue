@@ -80,7 +80,15 @@
                 return date.toISOString().substring(0, 10) + ' ' + this.time.HH + ':' + this.time.mm;
             },
         },
+        watch: {
+            '$route': 'routeChanged'
+        },
         methods: {
+            routeChanged(route) {
+                if (route.name === 'climb') {
+                    this.loadClimb(this.id);
+                }
+            },
             category(category_dict) {
                 return this.settings.dicts.categories[category_dict];
             },
