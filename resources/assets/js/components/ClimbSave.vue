@@ -31,11 +31,9 @@
                 <v-ons-list-header>
                     Climbed routes in this session
                 </v-ons-list-header>
-            </v-ons-list-item>
-            <v-ons-list-item>
                 <ul>
                     <li class="climbed-route-row" v-for="climbedRoute in climbedRoutes" :key="climbedRoute.id">
-                        {{ climbedRoute.name }} (original {{ category(climbedRoute.category_dict) }}, proposed {{ category(climbedRoute.proposed_category_dict) }})
+                        {{ climbedRoute.name }} {{ category(climbedRoute.category_dict) }} (proposed {{ category(climbedRoute.proposed_category_dict) }})
                     </li>
                 </ul>
             </v-ons-list-item>
