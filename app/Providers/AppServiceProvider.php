@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Lib\Cachable\Repository;
+use App\Models\Repositories\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
+        $this->app->singleton('CachableRepository', Repository::class);
+        $this->app->singleton('UserRepository', User::class);
     }
 }

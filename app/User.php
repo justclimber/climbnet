@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Lib\Cachable\ModelInterface;
+use App\Lib\Cachable\ModelTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -11,9 +13,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements ModelInterface
 {
-    use Notifiable;
+    use Notifiable,
+        ModelTrait;
 
     /**
      * The attributes that are mass assignable.

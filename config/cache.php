@@ -38,6 +38,10 @@ return [
             'driver' => 'array',
         ],
 
+        'nullstore' => [
+            'driver' => 'null',
+        ],
+
         'database' => [
             'driver' => 'database',
             'table' => 'cache',
@@ -90,5 +94,7 @@ return [
         'CACHE_PREFIX',
         str_slug(env('APP_NAME', 'laravel'), '_').'_cache'
     ),
-
+    'ttl' => [
+        'models' => 60 * 12,
+    ]
 ];
