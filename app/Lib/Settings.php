@@ -4,11 +4,13 @@ namespace App\Lib;
 
 use App\Lib\Dicts\DictInterface;
 use App\Lib\Dicts\RouteCategories;
+use App\Lib\Dicts\RouteTypes;
 
 class Settings
 {
     const DICTS = [
         RouteCategories::class,
+        RouteTypes::class,
     ];
 
     public function getAll()

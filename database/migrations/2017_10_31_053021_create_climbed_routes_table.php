@@ -15,10 +15,10 @@ class CreateClimbedRoutesTable extends Migration
     {
         Schema::create('climbed_routes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('climb_session_id');
-            $table->integer('category_dict');
-            $table->integer('proposed_category_dict');
+            $table->string('name')->nullable();
+            $table->integer('climb_session_id')->nullable();
+            $table->integer('category_dict')->nullable();
+            $table->integer('proposed_category_dict')->nullable();
             $table->integer('route_type_dict')->nullable();
             $table->integer('ascent_type_dict')->nullable();
             $table->text('comment')->nullable();

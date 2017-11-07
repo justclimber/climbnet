@@ -35,6 +35,16 @@
                 </v-ons-list-header>
             </v-ons-list-item>
             <v-ons-list-item>
+                <v-ons-select v-model="route_type_dict">
+                    <option v-for="route_type, index in settings.dicts.route_types" :value="index">
+                        {{ route_type }}
+                    </option>
+                </v-ons-select>
+                <v-ons-list-header>
+                    Route type
+                </v-ons-list-header>
+            </v-ons-list-item>
+            <v-ons-list-item>
                 <v-ons-button @click="saveRoute">Save route</v-ons-button>
             </v-ons-list-item>
             <v-ons-list-item>
@@ -60,6 +70,7 @@
                 name: '',
                 category_dict: '',
                 proposed_category_dict: '',
+                route_type_dict: '',
             }
         },
         computed: mapState(['settings']),
@@ -82,6 +93,7 @@
                     name: this.name,
                     category_dict: this.category_dict,
                     proposed_category_dict: this.proposed_category_dict,
+                    route_type_dict: this.route_type_dict,
                     climb_session_id: this.$route.params.id
                 }).then(data => {
                     this.clear();
@@ -91,6 +103,7 @@
                 this.name = '';
                 this.category_dict = '';
                 this.proposed_category_dict = '';
+                this.route_type_dict = '';
             }
         },
     }

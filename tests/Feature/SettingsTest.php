@@ -12,12 +12,16 @@ class SettingsTest extends TestCase
         $response
             ->assertSuccessful()
             ->assertJsonStructure([
-                'dicts' => ['categories']
+                'dicts' => ['categories', 'route_types']
             ]);
 
         $response->assertSee('9a');
         $response->assertSee('5a+');
         $response->assertDontSee('4a');
         $response->assertDontSee('9c+');
+        $response->assertSee('Trad');
+        $response->assertSee('Bouldering');
+        $response->assertSee('Top Rope');
+        $response->assertSee('Lead');
     }
 }
