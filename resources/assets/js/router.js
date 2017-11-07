@@ -9,17 +9,17 @@ const router = new Router({
         {
             path: '/',
             name: 'climbs',
-            component: require('./components/ClimbList'),
+            component: require('./pages/ClimbList'),
             children: [
                 {
                     path: 'climbs/:id',
                     name: 'climb',
-                    component: require('./components/ClimbSave'),
+                    component: require('./pages/ClimbSave'),
                     children: [
                         {
                             path: 'routes/create',
                             name: 'new-route',
-                            component: require('./components/ClimbedRoute')
+                            component: require('./pages/ClimbedRoute')
                         }
                     ]
                 }
