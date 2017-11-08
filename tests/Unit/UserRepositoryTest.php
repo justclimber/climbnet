@@ -96,4 +96,18 @@ class UserRepositoryTest extends TestCase
         app('UserRepository')->getByIds($userIdsBatchMixed, $queryMock)->all();
     }
 
+    public function testFindCached()
+    {
+        $userToTest = factory(\App\User::class)->create();
+
+        $userModelMock = \Mockery::spy(User::class);
+        $userModelMock->shouldReceive('find')
+            ->once()
+            ->andReturn($userModelMock);
+
+        $user = new \App\Models\Repositories\User($userModelMock);
+        $user->findCached($userToTest->id);
+
+        $user->findCached($userToTest->id);
+    }
 }

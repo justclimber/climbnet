@@ -125,6 +125,10 @@ class Repository
         }
 
         $result = \Cache::remember($this->getCacheKeyById($id), $this->ttl, function () use ($id, $orFail) {
+            if ($orFail) {
+                return $this->findOrFail($id);
+            }
+
             return $this->find($id) ? : false;
         });
         $this->localCache[$id] = $result;
@@ -139,6 +143,11 @@ class Repository
     protected function find($id)
     {
         return $this->model->find($id);
+    }
+
+    protected function findOrFail($id)
+    {
+        return $this->model->findOrFail($id);
     }
 
     protected function getCacheKeyById($id)
