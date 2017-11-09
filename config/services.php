@@ -34,5 +34,8 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    'vk' => [
+        'app_id' => env('VK_APP_ID'),
+        'secret' => env('VK_SECRET'),
+    ]
 ];

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Lib\Cachable\Repository;
+use App\Lib\Vk\Vk;
 use App\Models\Repositories\User;
 use Illuminate\Support\ServiceProvider;
 

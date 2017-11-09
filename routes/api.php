@@ -12,6 +12,8 @@ Route::get('/climbs/{climbSession}', 'ClimbSessionController@show')
 
 Route::post('/climbs', 'ClimbSessionController@store');
 
-Route::post('/climbed-routes/', 'ClimbedRouteController@store');
+Route::post('/climbed-routes', 'ClimbedRouteController@store');
 
 Route::get('/settings', 'SettingsController@index');
+
+Route::post('/session', 'SessionController@store');
