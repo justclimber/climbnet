@@ -30,6 +30,7 @@ class ClimbSessionController extends Controller
             'date' => 'required',
         ]);
         $data['date'] = Carbon::createFromFormat('Y-m-d H:i', $data['date']);
+        $data['user_id'] = \Auth::id();
 
         $climb = ClimbSession::create($data);
 

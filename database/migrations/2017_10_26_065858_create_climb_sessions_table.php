@@ -15,6 +15,7 @@ class CreateClimbSessionsTable extends Migration
     {
         Schema::create('climb_sessions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->index();
             $table->dateTime('date');
             $table->text('name')->nullable();
             $table->timestamps();

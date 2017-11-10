@@ -17,7 +17,7 @@ const router = new Router({
             component: require('./pages/ClimbList'),
             children: [
                 {
-                    path: 'climbs/:id',
+                    path: ':id',
                     name: 'climb',
                     component: require('./pages/ClimbSave'),
                     children: [

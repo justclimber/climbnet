@@ -17,6 +17,16 @@ class SessionController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'expire' => 'required',
+            'mid' => 'required',
+            'secret' => 'required',
+            'sid' => 'required',
+            'sig' => 'required',
+            'user.id' => 'required',
+            'user.first_name' => 'required',
+            'user.last_name' => 'required',
+        ]);
         $sigParts = $request->only(['expire', 'mid', 'secret', 'sid']);
         $sig = $request->get('sig');
         $vk = new Vk(config('services.vk'));
@@ -25,6 +35,13 @@ class SessionController extends Controller
             return \Response::json(['errorMessage' => 'Bad vk signature'], Response::HTTP_BAD_REQUEST);
         }
 
-        return ['user_id' => 3];
+        $user = $vk->getUserFromVkData($request->get('user'));
+
+        \Auth::login($user, true);
+
+        return [
+            'user' => $user,
+            'isJustRegistered' => $user->wasRecentlyCreated
+        ];
     }
 }

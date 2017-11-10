@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\ClimbSession;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -10,11 +11,23 @@ class ClimbTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @var User
+     */
+    private $user;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory(User::class)->create();
+        \Auth::login($this->user);
+    }
+
     public function testClimbsIndex()
     {
-        $climbsToTest = factory(ClimbSession::class, 5)->create();
+        $climbsToTest = factory(ClimbSession::class, 5)->create(['user_id' => $this->user->id]);
 
-        $response = $this->get('/api/climbs');
+        $response = $this->getJson('/api/climbs');
         $response
             ->assertSuccessful()
             ->assertJsonStructure([
@@ -29,14 +42,14 @@ class ClimbTest extends TestCase
             $climb = $climbsToTest->find($climbsDatum['id']);
             $this->assertEquals($climb->name, $climbsDatum['name']);
             $this->assertEquals($climb->date->format('d.m.Y H:i'), $climbsDatum['date']);
+            $this->assertEquals($climb->user_id, $this->user->id);
         }
-
     }
 
     public function testClimbStore()
     {
-        $climbDummy = factory(ClimbSession::class)->make();
-        $response = $this->post('/api/climbs', [
+        $climbDummy = factory(ClimbSession::class)->make(['user_id' => $this->user->id]);
+        $response = $this->postJson('/api/climbs', [
             'name' => $climbDummy->name,
             'date' => $climbDummy->date->format('Y-m-d H:i')
         ]);
@@ -46,6 +59,7 @@ class ClimbTest extends TestCase
 
         $climb = ClimbSession::find($response->original['id']);
         $this->assertNotNull($climb);
+        $this->assertEquals($climbDummy->user_id, $this->user->id);
         $this->assertEquals($climbDummy->name, $climb->name);
         $this->assertEquals(
             $climbDummy->date->format('Y-m-d H:i'),
@@ -56,10 +70,10 @@ class ClimbTest extends TestCase
     public function testClimbGet()
     {
         $climbedRoute = factory(\App\ClimbedRoute::class)->make();
-        $climb = factory(ClimbSession::class)->create();
+        $climb = factory(ClimbSession::class)->create(['user_id' => $this->user->id]);
         $climb->climbedRoutes()->save($climbedRoute);
 
-        $response = $this->get('/api/climbs/' . $climb->id);
+        $response = $this->getJson('/api/climbs/' . $climb->id);
         $response
             ->assertJsonStructure([
                 'data' => [
@@ -87,8 +101,8 @@ class ClimbTest extends TestCase
 
     public function testClimbGet404()
     {
-        $this->get('/api/climbs/0')->assertStatus(404);
-        $this->get('/api/climbs/asd')->assertStatus(404);
+        $this->getJson('/api/climbs/0')->assertStatus(404);
+        $this->getJson('/api/climbs/asd')->assertStatus(404);
     }
 
 }
