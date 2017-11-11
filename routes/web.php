@@ -1,3 +1,3 @@
 <?php
 // this is SPAAAAA!!!!
-Route::view('/{route}', 'landing')->where('route', '^(?!api\/).*');
+Route::any('/{route}', 'LandingPageController@index')->where('route', '^(?!api\/).*');

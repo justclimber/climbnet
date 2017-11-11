@@ -16,5 +16,9 @@ new Vue({
     router,
     store,
     template: '<App/>',
-    components: { App }
+    components: { App },
+    beforeMount: function () {
+        this.$store.commit('SET_SETTINGS', JSON.parse(this.$el.attributes['data-settings'].value));
+        this.$store.commit('SET_USER', JSON.parse(this.$el.attributes['data-user'].value));
+    },
 })

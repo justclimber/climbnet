@@ -16,7 +16,11 @@
         <title>ClimbNet</title>
     </head>
     <body>
-        <div id="app"></div>
+        <div
+            id="app"
+            data-settings='{!! json_encode($settings) !!}'
+            data-user='{!! $user !!}'
+        ></div>
         <script src="/js/app.js"></script>
     </body>
 </html>
