@@ -19,7 +19,7 @@
         <div
             id="app"
             data-settings='{!! json_encode($settings) !!}'
-            data-user='{!! $user !!}'
+            data-user='{!! json_encode($user) !!}'
         ></div>
         <script src="/js/app.js"></script>
     </body>

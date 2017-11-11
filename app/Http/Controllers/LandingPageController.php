@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User;
 use App\Lib\Settings;
-use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
 {
     public function index()
     {
         $settings = (new Settings())->getAll();
-        $user = \Auth::user();
+        $user = new User(\Auth::user());
         return view('landing', compact('settings', 'user'));
     }
 }

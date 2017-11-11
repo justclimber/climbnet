@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User;
 use App\Lib\Vk\Vk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class SessionController extends Controller
         \Auth::login($user, true);
 
         return [
-            'user' => $user,
+            'user' => new User($user),
             'isJustRegistered' => $user->wasRecentlyCreated
         ];
     }
