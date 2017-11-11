@@ -8,8 +8,8 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            name: 'welcome',
-            component: require('./pages/Welcome'),
+            name: 'login',
+            component: require('./pages/Login'),
         },
         {
             path: '/climbs',

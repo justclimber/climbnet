@@ -1,6 +1,8 @@
 <template>
     <v-ons-page>
-        Login via <button @click="vkLogin">VK</button>
+        <div class="login">
+            <button class="button" @click="vkLogin">Login via VK</button>
+        </div>
     </v-ons-page>
 </template>
 
@@ -30,3 +32,16 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .login {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+    }
+</style>
