@@ -48,7 +48,7 @@ class ClimbTest extends TestCase
 
     public function testClimbStore()
     {
-        $climbDummy = factory(ClimbSession::class)->make(['user_id' => $this->user->id]);
+        $climbDummy = factory(ClimbSession::class)->make();
         $response = $this->postJson('/api/climbs', [
             'name' => $climbDummy->name,
             'date' => $climbDummy->date->format('Y-m-d H:i')
@@ -59,12 +59,29 @@ class ClimbTest extends TestCase
 
         $climb = ClimbSession::find($response->original['id']);
         $this->assertNotNull($climb);
-        $this->assertEquals($climbDummy->user_id, $this->user->id);
+        $this->assertEquals($this->user->id, $climb->user_id);
         $this->assertEquals($climbDummy->name, $climb->name);
         $this->assertEquals(
             $climbDummy->date->format('Y-m-d H:i'),
             $climb->date->format('Y-m-d H:i')
         );
+    }
+
+    public function testClimbStoreWithMessUserIdIsSafe()
+    {
+        $climbDummy = factory(ClimbSession::class)->make(['user_id' => 123]);
+        $response = $this->postJson('/api/climbs', [
+            'name' => $climbDummy->name,
+            'date' => $climbDummy->date->format('Y-m-d H:i'),
+            'user_id' => $climbDummy->user_id
+        ]);
+        $response
+            ->assertJsonStructure(['id'])
+            ->assertSuccessful();
+
+        $climb = ClimbSession::find($response->original['id']);
+        $this->assertNotNull($climb);
+        $this->assertEquals($climb->user_id, $this->user->id);
     }
 
     public function testClimbGet()
@@ -105,4 +122,23 @@ class ClimbTest extends TestCase
         $this->getJson('/api/climbs/asd')->assertStatus(404);
     }
 
+    public function testOnlyMyClimbs()
+    {
+        $anotherUser = factory(User::class)->create();
+        factory(ClimbSession::class, 5)->create(['user_id' => $anotherUser->id]);
+        factory(ClimbSession::class, 5)->create(['user_id' => $this->user->id]);
+        $response = $this->getJson('/api/climbs/my');
+        $response
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data'
+            ]);
+        
+        $climbsData = $response->original['data'];
+        $this->assertInternalType('array', $climbsData);
+
+        foreach ($climbsData as $climbsDatum) {
+            $this->assertEquals($climbsDatum['user_id'], $this->user->id);
+        }
+    }
 }

@@ -19,6 +19,7 @@ class ClimbSession extends Resource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'name' => $this->name,
             'date' => $this->date->format("d.m.Y H:i"),
             'climbedRoutes' => new ClimbedRouteCollection($this->climbedRoutes()->get())

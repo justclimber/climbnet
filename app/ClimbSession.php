@@ -23,4 +23,14 @@ class ClimbSession extends Model
     {
         return $this->hasMany(ClimbedRoute::class);
     }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByUser($query, int $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
 }

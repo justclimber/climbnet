@@ -18,6 +18,14 @@ class ClimbSessionController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function myclimbs()
+    {
+        return new ClimbSessionCollection(ClimbSession::byUser(\Auth::id())->get());
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
