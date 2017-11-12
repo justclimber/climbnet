@@ -45,4 +45,27 @@ class ClimbedRouteTest extends TestCase
         $this->assertEquals($climbedRouteDummy->category_dict, $climbedRoute->category_dict);
         $this->assertEquals($climbedRouteDummy->proposed_category_dict, $climbedRoute->proposed_category_dict);
     }
+
+    public function testClimbedRouteGet()
+    {
+        $climb = factory(ClimbSession::class)->create(['user_id' => $this->user->id]);
+        $climbedRoute = $climb->climbedRoutes()->save(factory(\App\ClimbedRoute::class)->make());
+
+        $response = $this->getJson('/api/climbed-routes/' . $climbedRoute->id);
+        $response
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'category_dict',
+                    'proposed_category_dict'
+                ]
+            ]);
+
+        $climbedRouteData = $response->original['data'];
+        $this->assertEquals($climbedRoute['name'], $climbedRouteData['name']);
+        $this->assertEquals($climbedRoute['category_dict'], $climbedRouteData['category_dict']);
+        $this->assertEquals($climbedRoute['proposed_category_dict'], $climbedRouteData['proposed_category_dict']);
+    }
 }

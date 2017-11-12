@@ -29,7 +29,12 @@ const router = new Router({
                             path: 'routes/create',
                             name: 'new-route',
                             component: require('./pages/ClimbedRoute')
-                        }
+                        },
+                        {
+                            path: 'routes/:route_id',
+                            name: 'route-save',
+                            component: require('./pages/ClimbedRoute')
+                        },
                     ]
                 }
             ]

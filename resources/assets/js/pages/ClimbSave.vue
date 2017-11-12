@@ -31,11 +31,15 @@
                 <v-ons-list-header>
                     Climbed routes in this session
                 </v-ons-list-header>
-                <ul>
-                    <li class="climbed-route-row" v-for="climbedRoute in climbedRoutes" :key="climbedRoute.id">
-                        {{ climbedRoute.name }} {{ category(climbedRoute.category_dict) }} (proposed {{ category(climbedRoute.proposed_category_dict) }})
-                    </li>
-                </ul>
+            </v-ons-list-item>
+            <v-ons-list-item>
+                <v-ons-list>
+                    <v-ons-list-item class="climbed-route-row" v-for="climbedRoute in climbedRoutes" :key="climbedRoute.id">
+                        <router-link :to="{ name: 'route-save', params: {route_id: climbedRoute.id}}">
+                            {{ climbedRoute.name }} {{ category(climbedRoute.category_dict) }} ({{ category(climbedRoute.proposed_category_dict) }})
+                        </router-link>
+                    </v-ons-list-item>
+                </v-ons-list>
             </v-ons-list-item>
             <v-ons-list-item>
                 <v-ons-button @click="goToNewRoute">Add Route</v-ons-button>

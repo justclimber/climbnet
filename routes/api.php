@@ -9,6 +9,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/climbs', 'ClimbSessionController@store');
 
     Route::post('/climbed-routes', 'ClimbedRouteController@store');
+    Route::get('/climbed-routes/{climbedRoute}', 'ClimbedRouteController@show')
+        ->where('climbedRoute', '[0-9]+');
+    Route::put('/climbed-routes/{climbedRoute}', 'ClimbedRouteController@update')
+        ->where('climbedRoute', '[0-9]+');
 });
 
 Route::get('/settings', 'SettingsController@index');

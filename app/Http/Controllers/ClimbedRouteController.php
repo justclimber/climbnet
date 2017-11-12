@@ -46,12 +46,12 @@ class ClimbedRouteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ClimbedRoute  $climbedRoute
-     * @return \Illuminate\Http\Response
+     * @param  \App\ClimbedRoute $climbedRoute
+     * @return \App\Http\Resources\ClimbedRoute
      */
     public function show(ClimbedRoute $climbedRoute)
     {
-        //
+        return new \App\Http\Resources\ClimbedRoute($climbedRoute);
     }
 
     /**
@@ -63,7 +63,17 @@ class ClimbedRouteController extends Controller
      */
     public function update(Request $request, ClimbedRoute $climbedRoute)
     {
-        //
+        $data = $request->validate([
+            'name' => '',
+            'category_dict' => '',
+            'proposed_category_dict' => '',
+            'route_type_dict' => '',
+            'ascent_type_dict' => '',
+            'comment' => '',
+            'climb_session_id' => 'required|integer',
+        ]);
+
+        $climbedRoute->update($data);
     }
 
     /**

@@ -6,11 +6,7 @@
         <v-ons-list>
             <v-ons-list-item v-for="climb in climbs" :key="climb.id">
                 {{ climb.date }}:
-                <router-link
-                    :to="{ name: 'climb', params: {
-                        id: climb.id,
-                    }}"
-                >{{ climb.name }}</router-link>
+                <router-link :to="{ name: 'climb', params: {id: climb.id}}">{{ climb.name }}</router-link>
             </v-ons-list-item>
         </v-ons-list>
         <v-ons-fab
