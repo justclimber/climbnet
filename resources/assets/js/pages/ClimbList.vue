@@ -13,9 +13,13 @@
                 >{{ climb.name }}</router-link>
             </v-ons-list-item>
         </v-ons-list>
-            <v-ons-fab ripple position="bottom right" @click="newClimbDialogVisible = true">
-                <v-ons-icon icon="md-plus"></v-ons-icon>
-            </v-ons-fab>
+        <v-ons-fab
+            ripple
+            position="bottom right"
+            @click="newClimbDialogVisible = true"
+            v-can:create="'Climb'"
+        ><v-ons-icon icon="md-plus"></v-ons-icon>
+        </v-ons-fab>
         <v-ons-dialog
             cancelable
             :visible.sync="newClimbDialogVisible"

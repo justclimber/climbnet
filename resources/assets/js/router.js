@@ -15,6 +15,10 @@ const router = new Router({
             path: '/climbs',
             name: 'climbs',
             component: require('./pages/ClimbList'),
+            meta: {
+                can: 'view MyClimbs',
+                fail: '/login'
+            },
             children: [
                 {
                     path: ':id',
