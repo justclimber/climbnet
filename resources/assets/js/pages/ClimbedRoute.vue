@@ -78,43 +78,21 @@
         computed: mapState(['settings']),
         methods: {
             saveRoute() {
-                let routeToSave = {
-                    name: this.route.name,
-                    category_dict: this.route.category_dict,
-                    proposed_category_dict: this.route.proposed_category_dict,
-                    climb_session_id: this.$route.params.id
-                };
-                if (this.id) {
-                    axios.put('/api/climbed-routes/' + this.id, routeToSave).then(data => {
-                        this.redirectToParentClimb();
-                        this.clear();
-                    });
-                } else {
-                    axios.post('/api/climbed-routes', routeToSave).then(data => {
-                        this.redirectToParentClimb();
-                        this.clear();
-                    });
-                }
-            },
-            redirectToParentClimb() {
-                this.$router.push({name: 'climb', params: {
-                    id: this.$route.params.id
-                }});
+                api.save('climbed-routes', this.route).then(data => {
+                    this.clear();
+                    this.$router.push({name: 'climb', params: {
+                        id: this.$route.params.id
+                    }});
+                });
             },
             saveAndAddNewRoute() {
-                axios.post('/api/climbed-routes', {
-                    name: this.route.name,
-                    category_dict: this.route.category_dict,
-                    proposed_category_dict: this.route.proposed_category_dict,
-                    route_type_dict: this.route.route_type_dict,
-                    climb_session_id: this.$route.params.id
-                }).then(data => {
+                api.save('climbed-routes', this.route).then(data => {
                     this.clear();
                 })
             },
-            loadClimbedRoute(id) {
-                axios.get('/api/climbed-routes/' + id).then(response => {
-                    this.route = response.data.data;
+            loadClimbedRoute() {
+                api.getById('climbed-routes', this.route.id).then(response => {
+                    this.route = Object.assign(this.route, response.data.data);
                     console.log(this.route)
                 });
             },
@@ -126,9 +104,10 @@
             }
         },
         mounted() {
+            this.route.climb_session_id = this.$route.params.id;
             if (this.$route.params.route_id) {
-                this.id = this.$route.params.route_id;
-                this.loadClimbedRoute(this.id);
+                this.route.id = this.$route.params.route_id;
+                this.loadClimbedRoute();
             }
         }
     }

@@ -95,7 +95,7 @@
                 return this.settings.dicts.categories[category_dict];
             },
             loadClimb(id) {
-                axios.get('/api/climbs/' + id).then(response => {
+                api.getById('climbs', id).then(response => {
                     let responseClimb = response.data.data;
                     let date = moment(responseClimb.date, 'DD.MM.Y HH:mm').toDate();
 

@@ -85,7 +85,7 @@
                 }
             },
             loadClimbs() {
-                axios.get('/api/climbs')
+                api.get('climbs')
                     .then(response => this.climbs = response.data.data);
             },
             addClimb() {

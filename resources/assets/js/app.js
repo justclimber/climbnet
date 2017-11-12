@@ -1,14 +1,15 @@
 import 'onsenui/css/onsenui.css'
 import 'onsenui/css/onsen-css-components.css'
 
-window.axios = require('axios');
-
 import Vue from 'vue';
 import acl from 'vue-browser-acl'
 import VueOnsen from 'vue-onsenui';
 import router from './router'
+import Api from './api.js';
 import store from './store'
 import App from './App.vue'
+
+window.api = new Api('/api/');
 
 Vue.use(VueOnsen);
 Vue.use(acl, store.user, require('./acl').aclRules);
