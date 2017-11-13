@@ -91,9 +91,9 @@
                 })
             },
             loadClimbedRoute() {
-                api.getById('climbed-routes', this.route.id).then(response => {
-                    this.route = Object.assign(this.route, response.data.data);
-                    console.log(this.route)
+                api.getById('climbed-routes', this.$route.params.route_id).then(response => {
+                    this.route = response.data.data;
+                    this.route.id = this.$route.params.route_id;
                 });
             },
             clear() {
@@ -104,11 +104,10 @@
             }
         },
         mounted() {
-            this.route.climb_session_id = this.$route.params.id;
             if (this.$route.params.route_id) {
-                this.route.id = this.$route.params.route_id;
                 this.loadClimbedRoute();
             }
+            this.route.climb_session_id = this.$route.params.id;
         }
     }
 </script>

@@ -14,14 +14,11 @@
     export default {
         methods: {
             vkLogin() {
-                console.log('vk login started');
                 VK.Auth.login(this.vkLoginCallback, VK.access.PHOTOS + VK.access.FRIENDS);
             },
 
             vkLoginCallback(response) {
-                console.log(response);
-                console.log('vk login callback');
-                axios.post('/api/session', response.session).then(data => {
+                api.save('session', response.session).then(data => {
                     this.$store.dispatch('serUser', data.data.user);
                     this.$router.push({name: 'climbs'});
                 });

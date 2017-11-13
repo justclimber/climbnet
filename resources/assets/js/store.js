@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     },
     actions: {
         loadSettings({commit}) {
-            axios.get('/api/settings').then(response => commit('SET_SETTINGS', response.data))
+            api.get('settings').then(response => commit('SET_SETTINGS', response.data))
         },
         serUser({commit}, user) {
             commit('SET_USER', user)

@@ -110,10 +110,12 @@
                 })
             },
             updateClimb() {
-                axios.put('/api/climbs/' + this.id, {
+                let climbSessionData = {
+                    id: this.id,
                     name: this.name,
                     date: this.datetime
-                }).then(response => {
+                };
+                api.save('climbs', climbSessionData).then(response => {
                     this.$router.push({name: 'climbs'});
                 });
             },

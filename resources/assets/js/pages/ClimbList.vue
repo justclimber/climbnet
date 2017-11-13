@@ -89,7 +89,7 @@
                     .then(response => this.climbs = response.data.data);
             },
             addClimb() {
-                axios.post('/api/climbs', {
+                api.save('climbs', {
                     name: this.newClimb.name,
                     date: this.datetime
                 }).then(response => {
