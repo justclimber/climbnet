@@ -67,6 +67,31 @@ class ClimbTest extends TestCase
         );
     }
 
+    public function testClimbUpdate()
+    {
+        $climbDummy = factory(ClimbSession::class)->make();
+        $response = $this->postJson('/api/climbs', [
+            'name' => $climbDummy->name,
+            'date' => $climbDummy->date->format('Y-m-d H:i')
+        ]);
+        $response
+            ->assertJsonStructure(['id'])
+            ->assertSuccessful();
+
+        $climbDummy->name = 'asd';
+        $id = $response->original['id'];
+        $response = $this->putJson('/api/climbs/' . $id, [
+            'name' => $climbDummy->name,
+            'date' => $climbDummy->date->format('Y-m-d H:i')
+        ]);
+        $response->assertSuccessful();
+
+        $climb = ClimbSession::find($id);
+
+        $this->assertEquals($this->user->id, $climb->user_id);
+        $this->assertEquals('asd', $climb->name);
+    }
+
     public function testClimbStoreWithMessUserIdIsSafe()
     {
         $climbDummy = factory(ClimbSession::class)->make(['user_id' => 123]);

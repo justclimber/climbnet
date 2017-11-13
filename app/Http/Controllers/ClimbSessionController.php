@@ -61,11 +61,16 @@ class ClimbSessionController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\ClimbSession  $climbSession
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ClimbSession $climbSession)
     {
-        //
+        $data = $request->validate([
+            'name' => '',
+            'date' => 'required',
+        ]);
+        $data['date'] = Carbon::createFromFormat('Y-m-d H:i', $data['date']);
+
+        $climbSession->update($data);
     }
 
     /**

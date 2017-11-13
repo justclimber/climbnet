@@ -5,6 +5,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/climbs/my', 'ClimbSessionController@myclimbs');
     Route::get('/climbs/{climbSession}', 'ClimbSessionController@show')
         ->where('climbSession', '[0-9]+');
+    Route::put('/climbs/{climbSession}', 'ClimbSessionController@update')
+        ->where('climbSession', '[0-9]+');
 
     Route::post('/climbs', 'ClimbSessionController@store');
 
