@@ -36,6 +36,12 @@ class ClimbedRouteController extends Controller
             'climb_session_id' => 'required|integer',
         ]);
 
+        if (!($climb = ClimbSession::find($data['climb_session_id']))
+            || $climb->user_id != \Auth::id()
+        ) {
+            return $this->jsonAccessDenied();
+        }
+
         $climb = ClimbSession::find($data['climb_session_id']);
 
         $climbedRoute = $climb->climbedRoutes()->save(ClimbedRoute::make($data));
@@ -63,6 +69,10 @@ class ClimbedRouteController extends Controller
      */
     public function update(Request $request, ClimbedRoute $climbedRoute)
     {
+        if ($climbedRoute->climbSession->user_id != \Auth::id()) {
+            return $this->jsonAccessDenied();
+        }
+
         $data = $request->validate([
             'name' => '',
             'category_dict' => '',
@@ -70,7 +80,6 @@ class ClimbedRouteController extends Controller
             'route_type_dict' => '',
             'ascent_type_dict' => '',
             'comment' => '',
-            'climb_session_id' => 'required|integer',
         ]);
 
         $climbedRoute->update($data);

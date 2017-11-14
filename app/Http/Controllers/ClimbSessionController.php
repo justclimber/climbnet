@@ -6,6 +6,7 @@ use App\ClimbSession;
 use App\Http\Resources\ClimbSessionCollection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ClimbSessionController extends Controller
 {
@@ -59,11 +60,15 @@ class ClimbSessionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ClimbSession  $climbSession
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\ClimbSession $climbSession
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, ClimbSession $climbSession)
     {
+        if ($climbSession->user_id != \Auth::id()) {
+            return $this->jsonAccessDenied();
+        }
         $data = $request->validate([
             'name' => '',
             'date' => 'required',

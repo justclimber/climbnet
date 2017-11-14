@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\ClimbSession;
 use App\User;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -90,6 +91,15 @@ class ClimbTest extends TestCase
 
         $this->assertEquals($this->user->id, $climb->user_id);
         $this->assertEquals('asd', $climb->name);
+    }
+
+    public function testClimbUpdateFailForNotOwner()
+    {
+        $climb = factory(ClimbSession::class)->create(['user_id' => 999]);
+        $this->putJson('/api/climbs/' . $climb->id, [
+            'name' => '1111',
+            'date' => '2017-12-12 12:12'
+        ])->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function testClimbStoreWithMessUserIdIsSafe()
