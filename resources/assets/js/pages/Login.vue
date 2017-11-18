@@ -1,9 +1,9 @@
 <template>
-    <v-ons-page>
+    <div>
         <div class="login">
-            <button class="button" @click="vkLogin">Login via VK</button>
+            <md-button class="md-primary md-raised" @click="vkLogin">Login via VK</md-button>
         </div>
-    </v-ons-page>
+    </div>
 </template>
 
 <script>
