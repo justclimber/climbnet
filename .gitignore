@@ -16,3 +16,4 @@ yarn-error.log
 /public/fonts/
 /public/js/app.js
 /public/css/app.css
+.DS_Store

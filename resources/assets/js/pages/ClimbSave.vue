@@ -1,20 +1,18 @@
 <template>
-    <v-ons-page>
-        <v-ons-toolbar>
+    <div>
+        <md-toolbar>
             <div class="left">
-                <v-ons-back-button>To climbs</v-ons-back-button>
+                <h3 class="md-title">Add a climb</h3>
             </div>
-            <div class="center">Add a climb</div>
-        </v-ons-toolbar>
-        <!--<v-ons-list>-->
-            <v-ons-list-item>
-                <v-ons-input
-                    float
-                    placeholder="Input name or place of climb there"
-                    v-model="name"
-                ></v-ons-input>
-            </v-ons-list-item>
-            <v-ons-list-item>
+        </md-toolbar>
+        <md-list>
+            <md-list-item>
+                <md-field>
+                    <label>Input name or place of climb there</label>
+                    <md-input v-model="name"></md-input>
+                </md-field>
+            </md-list-item>
+            <md-list-item>
                 <datepicker
                     :monday-first="true"
                     :calendar-button="true"
@@ -26,29 +24,27 @@
                     :minute-interval="5"
                     v-model="time"
                 ></timepicker>
-            </v-ons-list-item>
-            <v-ons-list-item>
-                <v-ons-list-header>
+            </md-list-item>
+            <md-list-item>
+                <div>
                     Climbed routes in this session
-                </v-ons-list-header>
-            </v-ons-list-item>
-            <v-ons-list-item>
-                <v-ons-list>
-                    <v-ons-list-item class="climbed-route-row" v-for="climbedRoute in climbedRoutes" :key="climbedRoute.id">
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <md-list>
+                    <md-list-item class="climbed-route-row" v-for="climbedRoute in climbedRoutes" :key="climbedRoute.id">
                         <router-link :to="{ name: 'route-save', params: {route_id: climbedRoute.id}}">
                             {{ climbedRoute.name }} {{ category(climbedRoute.category_dict) }} ({{ category(climbedRoute.proposed_category_dict) }})
                         </router-link>
-                    </v-ons-list-item>
-                </v-ons-list>
-            </v-ons-list-item>
-            <v-ons-list-item>
-                <v-ons-button @click="goToNewRoute">Add Route</v-ons-button>
-            </v-ons-list-item>
-            <v-ons-list-item>
-                <v-ons-button @click="updateClimb">Save your climb session</v-ons-button>
-            </v-ons-list-item>
-        <!--</v-ons-list>-->
-    </v-ons-page>
+                    </md-list-item>
+                </md-list>
+            </md-list-item>
+            <md-list-item>
+                <a class="md-raised" @click="goToNewRoute">Add Route</a>
+                <a class="md-raised" @click="updateClimb">Save your climb session</a>
+            </md-list-item>
+        </md-list>
+    </div>
 </template>
 
 <script>
@@ -131,9 +127,6 @@
 </script>
 <style lang="scss">
     ons-list-item {
-        ons-input {
-            width:100%;
-        }
         .vdp-datepicker input {
             font-size: 1em;
             width: 125px;
@@ -144,7 +137,4 @@
     }
     .climbed-route-row {
     }
-    /*.vdp-datepicker__calendar {*/
-        /*position: fixed !important;*/
-    /*}*/
 </style>

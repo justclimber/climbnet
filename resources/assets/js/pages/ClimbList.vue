@@ -1,33 +1,32 @@
 <template>
-    <v-ons-page>
-        <v-ons-toolbar>
-            <div class="center">My climbs</div>
-        </v-ons-toolbar>
-        <v-ons-list>
-            <v-ons-list-item v-for="climb in climbs" :key="climb.id">
+    <div>
+        <md-toolbar>
+            <h3 class="md-title">My climbs</h3>
+        </md-toolbar>
+        <md-list>
+            <md-list-item v-for="climb in climbs" :key="climb.id">
                 {{ climb.date }}:
                 <router-link :to="{ name: 'climb', params: {id: climb.id}}">{{ climb.name }}</router-link>
-            </v-ons-list-item>
-        </v-ons-list>
-        <v-ons-fab
-            ripple
-            position="bottom right"
+            </md-list-item>
+        </md-list>
+        <md-button
+            class="md-fab md-fab-bottom-right"
             @click="newClimbDialogVisible = true"
             v-can:create="'Climb'"
-        ><v-ons-icon icon="md-plus"></v-ons-icon>
-        </v-ons-fab>
-        <v-ons-dialog
-            cancelable
-            :visible.sync="newClimbDialogVisible"
-            modifier="rowfooter"
+        >
+            <md-icon>add</md-icon>
+        </md-button>
+
+        <md-dialog
+            :md-active.sync="newClimbDialogVisible"
+            :md-fullscreen="false"
         >
             <div class="climb-add">
                 <div class="row">
-                    <v-ons-input
-                        float
-                        placeholder="Input name or place of climb there"
-                        v-model="newClimb.name"
-                    ></v-ons-input>
+                    <md-field>
+                        <label>Input name or place of climb there</label>
+                        <md-input v-model="newClimb.name"></md-input>
+                    </md-field>
                 </div>
                 <div class="row">
                     <span class="input-name">When: </span>
@@ -43,12 +42,10 @@
                         v-model="newClimb.time"
                     ></timepicker>
                 </div>
-                <v-ons-list-item>
-                    <v-ons-button @click="addClimb">Add</v-ons-button>
-                </v-ons-list-item>
+                <md-button class="md-primary md-raised" @click="addClimb">Add</md-button>
             </div>
-        </v-ons-dialog>
-    </v-ons-page>
+        </md-dialog>
+    </div>
 </template>
 
 <script>
@@ -106,15 +103,12 @@
     }
 </script>
 <style lang="scss">
-    ons-dialog .climb-add {
+    .md-dialog .climb-add {
         width: 19rem;
         height: 16rem;
         margin: 2rem 1rem 1rem 1rem;
         .row {
             padding-top: 1rem;
-        }
-        ons-input {
-            width:100%;
         }
         .vdp-datepicker input {
             font-size: 0.8em;

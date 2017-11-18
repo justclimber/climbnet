@@ -1,9 +1,9 @@
-import 'onsenui/css/onsenui.css'
-import 'onsenui/css/onsen-css-components.css'
 
 import Vue from 'vue';
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+
 import acl from 'vue-browser-acl'
-import VueOnsen from 'vue-onsenui';
 import router from './router'
 import Api from './api.js';
 import store from './store'
@@ -11,7 +11,7 @@ import App from './App.vue'
 
 window.api = new Api('/api/');
 
-Vue.use(VueOnsen);
+Vue.use(VueMaterial);
 Vue.use(acl, store.user, require('./acl').aclRules);
 
 new Vue({
