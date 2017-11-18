@@ -10,6 +10,8 @@
         <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
         <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
         <link rel="shortcut icon" href="/favicons/favicon.ico">
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+        <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
         <meta name="msapplication-config" content="/favicons/browserconfig.xml">
         <meta name="theme-color" content="#ffffff">
         <link rel="stylesheet" href="/css/app.css">
