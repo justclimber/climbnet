@@ -10,7 +10,7 @@ class LandingPageController extends Controller
     public function index()
     {
         $settings = (new Settings())->getAll();
-        $user = new User(\Auth::user());
+        $user = \Auth::check() ? new User(\Auth::user()) : [];
         return view('landing', compact('settings', 'user'));
     }
 }
