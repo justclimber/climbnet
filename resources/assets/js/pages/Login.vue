@@ -8,9 +8,6 @@
 
 <script>
     import Vk from '../vk.js'
-    VK.init({
-        apiId: 6249533
-    });
     export default {
         methods: {
             vkLogin() {
@@ -26,6 +23,11 @@
 //                    console.log(r);
 //                });
             }
+        },
+        mounted() {
+            VK.init({
+                apiId: this.$store.state.settings.vk.app_id
+            });
         }
     }
 </script>

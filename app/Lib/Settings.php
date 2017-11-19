@@ -16,7 +16,8 @@ class Settings
     public function getAll()
     {
         return [
-            'dicts' => $this->getDicts()
+            'dicts' => $this->getDicts(),
+            'vk' => ['app_id' => config('services.vk.app_id')]
         ];
     }
 
