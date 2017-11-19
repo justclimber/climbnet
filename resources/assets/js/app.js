@@ -1,7 +1,6 @@
 
 import Vue from 'vue';
 import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
 
 import acl from 'vue-browser-acl'
 import router from './router'

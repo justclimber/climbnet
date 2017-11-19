@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
         <meta name="msapplication-config" content="/favicons/browserconfig.xml">
         <meta name="theme-color" content="#ffffff">
-        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <title>ClimbNet</title>
     </head>
     <body>
@@ -23,6 +23,8 @@
             data-settings='{!! json_encode($settings) !!}'
             data-user='{!! json_encode($user) !!}'
         ></div>
-        <script src="/js/app.js"></script>
+        <script src="{{ mix('/js/manifest.js') }}"></script>
+        <script src="{{ mix('/js/vendor.js') }}"></script>
+        <script src="{{ mix('/js/app.js') }}"></script>
     </body>
 </html>

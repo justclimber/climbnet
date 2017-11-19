@@ -46,11 +46,11 @@
     import Vue from 'vue';
     import Datepicker from 'vuejs-datepicker';
     import VueTimepicker from 'vue2-timepicker'
-    import moment from 'moment';
     import { mapState } from 'vuex';
 
     Vue.component('datepicker', Datepicker);
     Vue.component('timepicker', VueTimepicker);
+    Vue.component('climbed-route', require('../components/ClimbCategory'));
 
     export default {
         data() {
