@@ -11,6 +11,11 @@
                 <md-input v-model="route.name"></md-input>
             </md-field>
             <md-field>
+                <climb-category
+                    :category.sync="route.category_dict"
+                >Route category</climb-category>
+            </md-field>
+            <md-field>
                 <label for="category">Official route category</label>
                 <md-select v-model="route.category_dict" id="category">
                     <md-option v-for="category, index in settings.dicts.categories" :value="index" :key="index">
@@ -50,7 +55,7 @@
 
     Vue.component('datepicker', Datepicker);
     Vue.component('timepicker', VueTimepicker);
-    Vue.component('climbed-route', require('../components/ClimbCategory'));
+    Vue.component('climb-category', require('../components/ClimbCategory'));
 
     export default {
         data() {
@@ -60,7 +65,7 @@
                     category_dict: '',
                     proposed_category_dict: '',
                     route_type_dict: '',
-                }
+                },
             }
         },
         computed: mapState(['settings']),

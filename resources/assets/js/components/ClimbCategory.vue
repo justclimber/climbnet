@@ -1,5 +1,9 @@
 <template>
-    <h1>Category selector</h1>
+    <!--<div>-->
+        <!--<slot>Select category</slot>-->
+        <!--<md-dialog :md-active.sync="showDialog">-->
+        <!--</md-dialog>-->
+    <!--</div>-->
 </template>
 <script>
     export default {
