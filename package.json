@@ -20,10 +20,10 @@
         "moment": "^2.19.1",
         "vue": "^2.5.0",
         "vue-browser-acl": "^0.5.3",
-        "vue-material": "^1.0.0-beta-4",
         "vue-router": "^3.0.1",
         "vue2-timepicker": "^0.1.4",
         "vuejs-datepicker": "^0.9.18",
+        "vuetify": "^0.17.1",
         "vuex": "^3.0.0"
     },
     "devDependencies": {

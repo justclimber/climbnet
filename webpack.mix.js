@@ -7,10 +7,10 @@ mix
     .extract([
         'axios',
         'vue',
+        'vuetify',
         'vuex',
         'vuejs-datepicker',
         'vue2-timepicker',
-        'vue-material',
         'vue-router',
         'vue-browser-acl',
         'moment',

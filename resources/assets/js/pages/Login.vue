@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="login">
-            <md-button class="md-primary md-raised" @click="vkLogin">Login via VK</md-button>
+            <v-btn class="md-primary md-raised" @click="vkLogin">Login via VK</v-btn>
         </div>
     </div>
 </template>

@@ -1,6 +1,6 @@
 
 import Vue from 'vue';
-import VueMaterial from 'vue-material'
+import Vuetify from 'vuetify'
 
 import acl from 'vue-browser-acl'
 import router from './router'
@@ -10,7 +10,7 @@ import App from './App.vue'
 
 window.api = new Api('/api/');
 
-Vue.use(VueMaterial);
+Vue.use(Vuetify);
 Vue.use(acl, store.user, require('./acl').aclRules);
 
 new Vue({
@@ -23,4 +23,4 @@ new Vue({
         this.$store.commit('SET_SETTINGS', JSON.parse(this.$el.attributes['data-settings'].value));
         this.$store.commit('SET_USER', JSON.parse(this.$el.attributes['data-user'].value));
     },
-})
+});
