@@ -8,6 +8,7 @@
                 bottom
                 right
                 absolute
+                v-can:create="'Climb'"
                 @click="newClimbDialogVisible = true"
             >
                 <v-icon>add</v-icon>
@@ -17,12 +18,55 @@
         <v-dialog v-model="newClimbDialogVisible" max-width="500px">
             <v-card>
                 <v-card-text>
-                    <v-text-field label="File name"></v-text-field>
-                    <small class="grey--text">* This doesn't actually save.</small>
+                    <v-text-field
+                        label="name or place of climb"
+                        v-model="newClimb.name"
+                    ></v-text-field>
+                    <v-dialog
+                        persistent
+                        v-model="dateModal"
+                        lazy
+                        full-width
+                        width="290px"
+                    >
+                        <v-text-field
+                            slot="activator"
+                            label="Date and time of climb"
+                            v-model="datetime"
+                            append-icon="event"
+                            readonly
+                        ></v-text-field>
+                        <v-date-picker
+                            v-model="newClimb.date"
+                            scrollable
+                            actions
+                            v-show="!timeModal"
+                            :first-day-of-wee="1"
+                        >
+                            <template slot-scope="{ save }">
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn flat color="primary" @click="timeModal = true">OK</v-btn>
+                                </v-card-actions>
+                            </template>
+                        </v-date-picker>
+                        <v-time-picker
+                            v-model="newClimb.time"
+                            actions
+                            v-show="timeModal"
+                            format="24hr"
+                        >
+                            <template slot-scope="{ save }">
+                                <v-card-actions>
+                                    <v-btn flat color="primary" @click="save">Ok</v-btn>
+                                </v-card-actions>
+                            </template>
+                        </v-time-picker>
+                    </v-dialog>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat color="primary" @click="newClimbDialogVisible = false">Submit</v-btn>
+                    <v-btn flat color="primary" @click="addClimb">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -34,60 +78,23 @@
                 </v-subheader>
             </template>
         </v-list>
-        <!--<md-button-->
-            <!--class="md-fab md-fab-bottom-right"-->
-            <!--@click="newClimbDialogVisible = true"-->
-            <!--v-can:create="'Climb'"-->
-        <!--&gt;-->
-            <!--<md-icon>add</md-icon>-->
-        <!--</md-button>-->
-
-        <!--<md-dialog-->
-            <!--:md-active.sync="newClimbDialogVisible"-->
-            <!--:md-fullscreen="false"-->
-        <!--&gt;-->
-            <!--<div class="climb-add">-->
-                <!--<div class="row">-->
-                    <!--<md-field>-->
-                        <!--<label>Input name or place of climb there</label>-->
-                        <!--<md-input v-model="newClimb.name"></md-input>-->
-                    <!--</md-field>-->
-                <!--</div>-->
-                <!--<div class="row">-->
-                    <!--<span class="input-name">When: </span>-->
-                    <!--<datepicker-->
-                        <!--:monday-first="true"-->
-                        <!--:calendar-button="true"-->
-                        <!--calendar-button-icon="fa fa-calendar"-->
-                        <!--v-model="newClimb.date"-->
-                        <!--:value="newClimb.date"-->
-                    <!--&gt;</datepicker>-->
-                    <!--<timepicker-->
-                        <!--:minute-interval="5"-->
-                        <!--v-model="newClimb.time"-->
-                    <!--&gt;</timepicker>-->
-                <!--</div>-->
-                <!--<md-button class="md-primary md-raised" @click="addClimb">Add</md-button>-->
-            <!--</div>-->
-        <!--</md-dialog>-->
     </v-app>
 </template>
 
 <script>
+    var format = require('date-fns/format');
     export default {
         data() {
             let now = new Date;
             return {
                 climbs: [],
                 newClimbDialogVisible: false,
+                dateModal: false,
+                timeModal: false,
                 newClimb: {
                     name: '',
-                    date: now,
-                    time: {
-                        HH: now.getHours(),
-                        mm: now.getMinutes(),
-                        ss: 0
-                    },
+                    date: format(now, 'YYYY-MM-DD'),
+                    time: format(now, 'HH:mm'),
                 }
             }
         },
@@ -96,8 +103,7 @@
         },
         computed: {
             datetime() {
-                let date = new Date(this.newClimb.date);
-                return date.toISOString().substring(0, 10) + ' ' + this.newClimb.time.HH + ':' + this.newClimb.time.mm;
+                return this.newClimb.date + ' ' + this.newClimb.time;
             }
         },
         methods: {
@@ -128,25 +134,5 @@
     }
 </script>
 <style lang="scss">
-    .md-dialog .climb-add {
-        width: 19rem;
-        height: 16rem;
-        margin: 2rem 1rem 1rem 1rem;
-        .row {
-            padding-top: 1rem;
-        }
-        .vdp-datepicker input {
-            font-size: 0.8em;
-        }
-        .time-picker input.display-time {
-            border: none;
-            font-size: 0.8em;
-        }
-        .vdp-datepicker__calendar {
-            border: none;
-            top: -6rem;
-            width: 19rem;
-        }
-    }
 </style>
 

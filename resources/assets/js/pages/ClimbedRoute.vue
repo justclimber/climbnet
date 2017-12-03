@@ -1,63 +1,40 @@
 <template>
-    <div>
-        <md-toolbar>
-            <div class="left">
-                <h3 class="md-title">Add a climbed route</h3>
-            </div>
-        </md-toolbar>
-        <md-list class="route-list">
-            <md-field>
-                <label>Input name of route</label>
-                <md-input v-model="route.name"></md-input>
-            </md-field>
-            <md-field>
-                <climb-category
-                    :category.sync="route.category_dict"
-                >Route category</climb-category>
-            </md-field>
-            <md-field>
-                <label for="category">Official route category</label>
-                <md-select v-model="route.category_dict" id="category">
-                    <md-option v-for="category, index in settings.dicts.categories" :value="index" :key="index">
-                        {{ category }}
-                    </md-option>
-                </md-select>
-            </md-field>
-            <md-field>
-                <label for="category_proposed">Your opinion</label>
-                <md-select v-model="route.proposed_category_dict" id="category_proposed">
-                    <md-option v-for="category, index in settings.dicts.categories" :value="index" :key="index">
-                        {{ category }}
-                    </md-option>
-                </md-select>
-            </md-field>
-            <md-field>
-                <label for="route_type">Route type</label>
-                <md-select v-model="route.route_type_dict" id="route_type">
-                    <md-option v-for="route_type, index in settings.dicts.route_types" :value="index"  :key="index">
-                        {{ route_type }}
-                    </md-option>
-                </md-select>
-            </md-field>
-            <div>
-                <a @click="saveRoute">Save route</a>
-                <a @click="saveAndAddNewRoute">Save and add another one</a>
-            </div>
-        </md-list>
-    </div>
+    <v-app>
+        <v-toolbar>
+            <v-toolbar-title>Add a climbed route</v-toolbar-title>
+        </v-toolbar>
+        <v-container>
+            <v-form>
+                <v-text-field label="name of route" v-model="route.name"></v-text-field>
+                <v-layout row wrap>
+                    <v-flex xs6>
+                        <climb-category label="Route category" v-model="route.category_dict"></climb-category>
+                    </v-flex>
+                    <v-flex xs6>
+                        <climb-category label="Proposed?" v-model="route.proposed_category_dict"></climb-category>
+                    </v-flex>
+                </v-layout>
+                <v-select
+                    label="Route type"
+                    v-model="route.route_type_dict"
+                    v-bind:items="settings.dicts.route_types"
+                    id="route_type"
+                >
+                </v-select>
+                <v-btn @click="saveRoute">Save route</v-btn>
+                <v-btn @click="saveAndAddNewRoute">Save and add another one</v-btn>
+            </v-form>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
-    import Vue from 'vue';
-    import Datepicker from 'vuejs-datepicker';
-    import VueTimepicker from 'vue2-timepicker'
     import { mapState } from 'vuex';
 
-    Vue.component('datepicker', Datepicker);
-    Vue.component('timepicker', VueTimepicker);
-    Vue.component('climb-category', require('../components/ClimbCategory'));
-
     export default {
+        components: {
+            'climb-category': require('../components/ClimbCategory')
+        },
         data() {
             return {
                 route: {

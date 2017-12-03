@@ -1,82 +1,93 @@
 <template>
-    <div>
-        <md-toolbar>
-            <div class="left">
-                <h3 class="md-title">Add a climb</h3>
-            </div>
-        </md-toolbar>
-        <md-list>
-            <md-list-item>
-                <md-field>
-                    <label>Input name or place of climb there</label>
-                    <md-input v-model="name"></md-input>
-                </md-field>
-            </md-list-item>
-            <md-list-item>
-                <datepicker
-                    :monday-first="true"
-                    :calendar-button="true"
-                    calendar-button-icon="fa fa-calendar"
-                    v-model="date"
-                    :value="date"
-                ></datepicker>
-                <timepicker
-                    :minute-interval="5"
-                    v-model="time"
-                ></timepicker>
-            </md-list-item>
-            <md-list-item>
+    <v-app>
+        <v-toolbar>
+            <v-toolbar-title>My climbs</v-toolbar-title>
+        </v-toolbar>
+        <v-container>
+            <v-form>
+                <v-text-field label="name or place of climb" v-model="name"></v-text-field>
+                <v-dialog
+                    persistent
+                    v-model="dateModal"
+                    lazy
+                    full-width
+                    width="290px"
+                >
+                    <v-text-field
+                        slot="activator"
+                        label="Date and time of climb"
+                        v-model="datetime"
+                        append-icon="event"
+                        readonly
+                    ></v-text-field>
+                    <v-date-picker
+                        v-model="date"
+                        scrollable
+                        actions
+                        v-show="!timeModal"
+                        :first-day-of-wee="1"
+                    >
+                        <template slot-scope="{ save }">
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn flat color="primary" @click="timeModal = true">OK</v-btn>
+                            </v-card-actions>
+                        </template>
+                    </v-date-picker>
+                    <v-time-picker
+                        v-model="time"
+                        actions
+                        v-show="timeModal"
+                        format="24hr"
+                    >
+                        <template slot-scope="{ save }">
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn flat color="primary" @click="save">Ok</v-btn>
+                            </v-card-actions>
+                        </template>
+                    </v-time-picker>
+                </v-dialog>
                 <div>
                     Climbed routes in this session
                 </div>
-            </md-list-item>
-            <md-list-item>
-                <md-list>
-                    <md-list-item class="climbed-route-row" v-for="climbedRoute in climbedRoutes" :key="climbedRoute.id">
+                <v-list>
+                    <template class="climbed-route-row" v-for="climbedRoute in climbedRoutes">
                         <router-link :to="{ name: 'route-save', params: {route_id: climbedRoute.id}}">
                             {{ climbedRoute.name }} {{ category(climbedRoute.category_dict) }} ({{ category(climbedRoute.proposed_category_dict) }})
                         </router-link>
-                    </md-list-item>
-                </md-list>
-            </md-list-item>
-            <md-list-item>
-                <a class="md-raised" @click="goToNewRoute">Add Route</a>
-                <a class="md-raised" @click="updateClimb">Save your climb session</a>
-            </md-list-item>
-        </md-list>
-    </div>
+                    </template>
+                </v-list>
+                <v-btn @click="goToNewRoute">Add Route</v-btn>
+                <v-btn @click="updateClimb">Save your climb session</v-btn>
+            </v-form>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
     import Vue from 'vue';
-    import Datepicker from 'vuejs-datepicker';
-    import VueTimepicker from 'vue2-timepicker'
-    import moment from 'moment';
     import { mapState } from 'vuex';
-
-    Vue.component('datepicker', Datepicker);
-    Vue.component('timepicker', VueTimepicker);
+    import format from 'date-fns/format';
+    import parse from 'date-fns/parse';
 
     export default {
         data() {
             let now = new Date;
             return {
+                dateModal: false,
+                timeModal: false,
                 name: '',
-                date: now,
-                time: {
-                    HH: now.getHours(),
-                    mm: now.getMinutes(),
-                    ss: 0
-                },
+                date: format(now, 'YYYY-MM-DD'),
+                time: format(now, 'HH:mm'),
                 climbedRoutes: []
             }
         },
         computed: {
             ...mapState(['settings']),
             datetime() {
-                let date = new Date(this.date);
-                return date.toISOString().substring(0, 10) + ' ' + this.time.HH + ':' + this.time.mm;
-            },
+                return this.date + ' ' + this.time;
+            }
         },
         watch: {
             '$route': 'routeChanged'
@@ -88,20 +99,21 @@
                 }
             },
             category(category_dict) {
-                return this.settings.dicts.categories[category_dict];
+                let categories = this.settings.dicts.categories;
+                for (let i = 0; i < categories.length; i++) {
+                    if (category_dict === categories[i].value) {
+                        return categories[i].text;
+                    }
+                }
             },
             loadClimb(id) {
                 api.getById('climbs', id).then(response => {
                     let responseClimb = response.data.data;
-                    let date = moment(responseClimb.date, 'DD.MM.Y HH:mm').toDate();
+                    let date = parse(responseClimb.date);
 
                     this.name = responseClimb.name;
-                    this.date = date;
-                    this.time = {
-                        HH: date.getHours(),
-                        mm: date.getMinutes(),
-                        ss: 0,
-                    };
+                    this.date = format(date, 'YYYY-MM-DD');
+                    this.time = format(date, 'HH:mm');
                     this.climbedRoutes = responseClimb.climbedRoutes;
                 })
             },
@@ -126,15 +138,4 @@
     }
 </script>
 <style lang="scss">
-    ons-list-item {
-        .vdp-datepicker input {
-            font-size: 1em;
-            width: 125px;
-        }
-        .time-picker input.display-time {
-            border: none;
-        }
-    }
-    .climbed-route-row {
-    }
 </style>

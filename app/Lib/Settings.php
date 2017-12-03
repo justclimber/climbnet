@@ -3,6 +3,7 @@
 namespace App\Lib;
 
 use App\Lib\Dicts\DictInterface;
+use App\Lib\Dicts\Presenter\DictToSelect;
 use App\Lib\Dicts\RouteCategories;
 use App\Lib\Dicts\RouteTypes;
 
@@ -27,7 +28,7 @@ class Settings
         foreach (self::DICTS as $dictName) {
             /** @var DictInterface $dict */
             $dict = new $dictName();
-            $dicts[$dict->getName()] = $dict->getDict();
+            $dicts[$dict->getName()] = (new DictToSelect($dict))->forSelect();
         }
 
         return $dicts;

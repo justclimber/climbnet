@@ -42,7 +42,7 @@ class ClimbTest extends TestCase
             $this->assertTrue($climbsToTest->contains($climbsDatum['id']));
             $climb = $climbsToTest->find($climbsDatum['id']);
             $this->assertEquals($climb->name, $climbsDatum['name']);
-            $this->assertEquals($climb->date->format('d.m.Y H:i'), $climbsDatum['date']);
+            $this->assertEquals($climb->date->toIso8601String(), $climbsDatum['date']);
             $this->assertEquals($climb->user_id, $this->user->id);
         }
     }
@@ -141,7 +141,7 @@ class ClimbTest extends TestCase
         $climbData = $response->original['data'];
         $this->assertEquals($climb->name, $climbData['name']);
         $this->assertEquals(
-            $climb->date->format('d.m.Y H:i'),
+            $climb->date->toIso8601String(),
             $climbData['date']
         );
         $this->assertCount(1, $climbData['climbedRoutes']);
