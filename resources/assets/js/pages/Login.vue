@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <v-app>
         <div class="login">
-            <v-btn class="md-primary md-raised" @click="vkLogin">Login via VK</v-btn>
+            <v-btn color="primary" @click="vkLogin">Login via VK</v-btn>
         </div>
-    </div>
+    </v-app>
 </template>
 
 <script>
