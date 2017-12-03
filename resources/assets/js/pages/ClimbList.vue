@@ -71,12 +71,7 @@
             </v-card>
         </v-dialog>
         <v-list>
-            <template v-for="climb in climbs">
-                <v-subheader>
-                    {{ climb.date }}:
-                    <router-link :to="{ name: 'climb', params: {id: climb.id}}">{{ climb.name }}</router-link>
-                </v-subheader>
-            </template>
+            <climb-session-row v-for="climb in climbs" :key="climb.id" :climb="climb"></climb-session-row>
         </v-list>
     </v-app>
 </template>
@@ -84,6 +79,9 @@
 <script>
     var format = require('date-fns/format');
     export default {
+        components: {
+            'climb-session-row': require('../components/ClimbSessionRow')
+        },
         data() {
             let now = new Date;
             return {
@@ -126,7 +124,7 @@
                     }});
                     this.newClimbDialogVisible = false;
                 })
-            }
+            },
         },
         mounted() {
             this.loadClimbs()

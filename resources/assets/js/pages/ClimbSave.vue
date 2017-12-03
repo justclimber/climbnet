@@ -52,11 +52,11 @@
                     Climbed routes in this session
                 </div>
                 <v-list>
-                    <template class="climbed-route-row" v-for="climbedRoute in climbedRoutes">
-                        <router-link :to="{ name: 'route-save', params: {route_id: climbedRoute.id}}">
-                            {{ climbedRoute.name }} {{ category(climbedRoute.category_dict) }} ({{ category(climbedRoute.proposed_category_dict) }})
-                        </router-link>
-                    </template>
+                    <climbed-route-row
+                        v-for="climbedRoute in climbedRoutes"
+                        :key="climbedRoute.id"
+                        :climbedRoute="climbedRoute"
+                    ></climbed-route-row>
                 </v-list>
                 <v-btn @click="goToNewRoute">Add Route</v-btn>
                 <v-btn @click="updateClimb">Save your climb session</v-btn>
@@ -66,12 +66,13 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import { mapState } from 'vuex';
     import format from 'date-fns/format';
     import parse from 'date-fns/parse';
 
     export default {
+        components: {
+            'climbed-route-row': require('../components/ClimbedRouteRow')
+        },
         data() {
             let now = new Date;
             return {
@@ -84,7 +85,6 @@
             }
         },
         computed: {
-            ...mapState(['settings']),
             datetime() {
                 return this.date + ' ' + this.time;
             }
@@ -96,14 +96,6 @@
             routeChanged(route) {
                 if (route.name === 'climb') {
                     this.loadClimb(this.id);
-                }
-            },
-            category(category_dict) {
-                let categories = this.settings.dicts.categories;
-                for (let i = 0; i < categories.length; i++) {
-                    if (category_dict === categories[i].value) {
-                        return categories[i].text;
-                    }
                 }
             },
             loadClimb(id) {
