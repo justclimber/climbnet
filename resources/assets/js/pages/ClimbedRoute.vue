@@ -14,15 +14,9 @@
                         <climb-category label="Proposed?" v-model="route.proposed_category_dict"></climb-category>
                     </v-flex>
                 </v-layout>
-                <v-select
-                    label="Route type"
-                    v-model="route.route_type_dict"
-                    v-bind:items="settings.dicts.route_types"
-                    id="route_type"
-                >
-                </v-select>
-                <v-btn @click="saveRoute">Save route</v-btn>
-                <v-btn @click="saveAndAddNewRoute">Save and add another one</v-btn>
+                <route-type label="Route type" v-model="route.route_type_dict"></route-type>
+                <v-btn color="primary" @click="saveRoute">Save</v-btn>
+                <v-btn color="accent" @click="saveAndAddNewRoute">Save and add another</v-btn>
             </v-form>
         </v-container>
     </v-app>
@@ -33,7 +27,8 @@
 
     export default {
         components: {
-            'climb-category': require('../components/ClimbCategory')
+            'climb-category': require('../components/ClimbCategory'),
+            'route-type': require('../components/RouteType'),
         },
         data() {
             return {
@@ -82,7 +77,4 @@
     }
 </script>
 <style lang="scss">
-    .md-list.route-list {
-        padding: 1rem;
-    }
 </style>

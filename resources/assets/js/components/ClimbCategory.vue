@@ -9,7 +9,7 @@
         ></v-select>
         <v-dialog v-model="categoryDialog">
             <v-card>
-                <v-container>
+                <v-container class="pb-0">
                     <h2 class="text-xs-center">Grade {{ grade }}</h2>
                     <div class="text-xs-center">
                         <v-btn-toggle v-model="gradeDigit" class="category-buttons">
@@ -54,9 +54,6 @@
         props: ['label', 'value'],
         computed: {
             ...mapState(['settings']),
-            labelForSelect() {
-                return this.grade ? this.grade : this.label;
-            },
             grade() {
                 if (this.gradeDigit == null) {
                     return '';
@@ -94,7 +91,7 @@
     .category-buttons {
         margin-bottom: 1rem;
         button.btn {
-            width: 3.6rem;
+            width: 3.2rem;
         }
     }
 </style>
