@@ -4,7 +4,7 @@
             :label="label"
             @click.native="categoryDialog = true"
             v-bind:items="settings.dicts.categories"
-            v-model="gradeSelected"
+            v-model="gradeSelectedComputed"
             readonly
         ></v-select>
         <v-dialog v-model="categoryDialog">
@@ -61,7 +61,10 @@
                 return this.gradeDigit + 4
                     + (this.gradeLetter !== null ? String.fromCharCode(65 + this.gradeLetter) : '')
                     + (this.gradePlus !== null ? '+' : '');
-            }
+            },
+            gradeSelectedComputed() {
+                return this.value ? this.value : this.gradeSelected;
+            },
         },
         data() {
             return {

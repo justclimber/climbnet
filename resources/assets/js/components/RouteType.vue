@@ -37,7 +37,7 @@
         computed: {
             ...mapState(['settings']),
             routeType() {
-                return this.value ? this.value : this.routeTypeSelected
+                return this.value ? this.value : this.routeTypeSelected;
             }
         },
         data() {
