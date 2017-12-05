@@ -2,6 +2,7 @@
 
 namespace App\Lib;
 
+use App\Lib\Dicts\AscentTypes;
 use App\Lib\Dicts\DictInterface;
 use App\Lib\Dicts\Presenter\DictToSelect;
 use App\Lib\Dicts\RouteCategories;
@@ -12,6 +13,7 @@ class Settings
     const DICTS = [
         RouteCategories::class,
         RouteTypes::class,
+        AscentTypes::class,
     ];
 
     public function getAll()

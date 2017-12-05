@@ -30,12 +30,7 @@ class ClimbedRouteTest extends TestCase
         $climb = factory(ClimbSession::class)->create(['user_id' => $this->user->id]);
         $climbedRouteDummy = factory(ClimbedRoute::class)->make();
 
-        $response = $this->postJson('/api/climbed-routes', [
-            'name' => $climbedRouteDummy->name,
-            'climb_session_id' => $climb->id,
-            'category_dict' => $climbedRouteDummy->category_dict,
-            'proposed_category_dict' => $climbedRouteDummy->proposed_category_dict,
-        ]);
+        $response = $this->createRoute($climbedRouteDummy, $climb->id);
         $response
             ->assertJsonStructure(['id'])
             ->assertSuccessful();
@@ -43,9 +38,7 @@ class ClimbedRouteTest extends TestCase
         $climbedRoute = ClimbedRoute::find($response->original['id']);
         $this->assertNotNull($climbedRoute);
         $this->assertNotNull($climbedRoute->climb_session_id);
-        $this->assertEquals($climbedRouteDummy->name, $climbedRoute->name);
-        $this->assertEquals($climbedRouteDummy->category_dict, $climbedRoute->category_dict);
-        $this->assertEquals($climbedRouteDummy->proposed_category_dict, $climbedRoute->proposed_category_dict);
+        $this->assertRouteArrayEqualObject($climbedRoute, $climbedRouteDummy);
     }
 
     public function testClimbedRouteUpdate()
@@ -87,24 +80,16 @@ class ClimbedRouteTest extends TestCase
         $climb = factory(ClimbSession::class)->create(['user_id' => 999]);
         $climbedRoute = factory(ClimbedRoute::class)->make(['climb_session_id' => $climb->id]);
 
-        $this->postJson('/api/climbed-routes', [
-            'name' => $climbedRoute->name,
-            'category_dict' => $climbedRoute->category_dict,
-            'proposed_category_dict' => $climbedRoute->proposed_category_dict,
-            'climb_session_id' => $climbedRoute->climb_session_id,
-        ])->assertStatus(Response::HTTP_FORBIDDEN);
+        $this->createRoute($climbedRoute, $climbedRoute->climb_session_id)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function testClimbedRouteCreateFailForNotExistedClimbSession()
     {
         $climbedRoute = factory(ClimbedRoute::class)->make(['climb_session_id' => 9999]);
 
-        $this->postJson('/api/climbed-routes', [
-            'name' => $climbedRoute->name,
-            'category_dict' => $climbedRoute->category_dict,
-            'proposed_category_dict' => $climbedRoute->proposed_category_dict,
-            'climb_session_id' => $climbedRoute->climb_session_id,
-        ])->assertStatus(Response::HTTP_FORBIDDEN);
+        $this->createRoute($climbedRoute, $climbedRoute->climb_session_id)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function testClimbedRouteGet()
@@ -120,13 +105,43 @@ class ClimbedRouteTest extends TestCase
                     'id',
                     'name',
                     'category_dict',
-                    'proposed_category_dict'
+                    'proposed_category_dict',
+                    'route_type_dict',
+                    'ascent_type_dict',
                 ]
             ]);
 
         $climbedRouteData = $response->original['data'];
-        $this->assertEquals($climbedRoute['name'], $climbedRouteData['name']);
-        $this->assertEquals($climbedRoute['category_dict'], $climbedRouteData['category_dict']);
-        $this->assertEquals($climbedRoute['proposed_category_dict'], $climbedRouteData['proposed_category_dict']);
+        $this->assertRouteArrayEqualObject($climbedRouteData, $climbedRoute);
+    }
+
+    /**
+     * @param array|ClimbedRoute $actual
+     * @param ClimbedRoute $expected
+     */
+    private function assertRouteArrayEqualObject($actual, ClimbedRoute $expected)
+    {
+        $this->assertEquals($actual['name'], $expected->name);
+        $this->assertEquals($actual['category_dict'], $expected->category_dict);
+        $this->assertEquals($actual['proposed_category_dict'], $expected->proposed_category_dict);
+        $this->assertEquals($actual['route_type_dict'], $expected->route_type_dict);
+        $this->assertEquals($actual['ascent_type_dict'], $expected->ascent_type_dict);
+    }
+
+    /**
+     * @param ClimbedRoute $climbedRoute
+     * @param int $climbSessionId
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    private function createRoute(ClimbedRoute $climbedRoute, int $climbSessionId)
+    {
+        return $this->postJson('/api/climbed-routes', [
+            'name' => $climbedRoute->name,
+            'climb_session_id' => $climbSessionId,
+            'category_dict' => $climbedRoute->category_dict,
+            'proposed_category_dict' => $climbedRoute->proposed_category_dict,
+            'route_type_dict' => $climbedRoute->route_type_dict,
+            'ascent_type_dict' => $climbedRoute->ascent_type_dict,
+        ]);
     }
 }
