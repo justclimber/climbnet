@@ -15,6 +15,11 @@
                     </v-flex>
                 </v-layout>
                 <route-type label="Route type" v-model="route.route_type_dict"></route-type>
+                <v-select
+                    label="Ascent Type"
+                    v-bind:items="settings.dicts.ascent_types"
+                    v-model="route.ascent_type_dict"
+                ></v-select>
                 <v-btn color="primary" @click="saveRoute">Save</v-btn>
                 <v-btn color="accent" @click="saveAndAddNewRoute">Save and add another</v-btn>
             </v-form>
@@ -37,6 +42,7 @@
                     category_dict: '',
                     proposed_category_dict: '',
                     route_type_dict: '',
+                    ascent_type: '',
                 },
             }
         },
@@ -66,6 +72,7 @@
                 this.route.category_dict = '';
                 this.route.proposed_category_dict = '';
                 this.route.route_type_dict = '';
+                this.route.ascent_type_dict = '';
             }
         },
         mounted() {

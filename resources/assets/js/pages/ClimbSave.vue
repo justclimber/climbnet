@@ -59,7 +59,7 @@
                     ></climbed-route-row>
                 </v-list>
                 <v-btn @click="goToNewRoute">Add Route</v-btn>
-                <v-btn @click="updateClimb">Save your climb session</v-btn>
+                <v-btn @click="updateClimb">Save climb session</v-btn>
             </v-form>
         </v-container>
     </v-app>
