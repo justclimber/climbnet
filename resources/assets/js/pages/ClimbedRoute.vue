@@ -14,12 +14,15 @@
                         <climb-category label="Proposed?" v-model="route.proposed_category_dict"></climb-category>
                     </v-flex>
                 </v-layout>
-                <route-type label="Route type" v-model="route.route_type_dict"></route-type>
-                <v-select
-                    label="Ascent Type"
-                    v-bind:items="settings.dicts.ascent_types"
+                <button-toggle-group
+                    :items="settings.dicts.route_types"
+                    v-model="route.route_type_dict"
+                >Route type</button-toggle-group>
+                <button-toggle-group
+                    :items="settings.dicts.ascent_types"
                     v-model="route.ascent_type_dict"
-                ></v-select>
+                    useShortLabels="true"
+                >Ascent Type</button-toggle-group>
                 <v-btn color="primary" @click="saveRoute">Save</v-btn>
                 <v-btn color="accent" @click="saveAndAddNewRoute">Save and add another</v-btn>
             </v-form>
@@ -34,6 +37,7 @@
         components: {
             'climb-category': require('../components/ClimbCategory'),
             'route-type': require('../components/RouteType'),
+            'button-toggle-group': require('../components/ButtonToggleGroup'),
         },
         data() {
             return {

@@ -18,7 +18,7 @@ class AscentTypes implements DictInterface
     public function getDict()
     {
         return [
-            self::TYPE_ONSIGHT => 'Onsight',
+            self::TYPE_ONSIGHT => 'On-Sight',
             self::TYPE_FLASH => 'Flash',
             self::TYPE_RED_POINT => 'Red Point',
             self::TYPE_ATTEMPT => 'Attempt',
