@@ -16,10 +16,17 @@ class Settings
         AscentTypes::class,
     ];
 
+    const DICTS_FOR_SELECT = [
+        RouteCategories::class,
+        RouteTypes::class,
+        AscentTypes::class,
+    ];
+
     public function getAll()
     {
         return [
             'dicts' => $this->getDicts(),
+            'selects' => $this->getDataForSelect(),
             'vk' => ['app_id' => config('services.vk.app_id')]
         ];
     }
@@ -28,6 +35,18 @@ class Settings
     {
         $dicts = [];
         foreach (self::DICTS as $dictName) {
+            /** @var DictInterface $dict */
+            $dict = new $dictName();
+            $dicts[$dict->getName()] = $dict->getDict();
+        }
+
+        return $dicts;
+    }
+
+    public function getDataForSelect()
+    {
+        $dicts = [];
+        foreach (self::DICTS_FOR_SELECT as $dictName) {
             /** @var DictInterface $dict */
             $dict = new $dictName();
             $dicts[$dict->getName()] = (new DictToSelect($dict))->forSelect();

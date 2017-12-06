@@ -3,7 +3,7 @@
         <v-select
             :label="label"
             @click.native="categoryDialog = true"
-            v-bind:items="settings.dicts.categories"
+            :items="settings.selects.categories"
             v-model="gradeSelectedComputed"
             readonly
         ></v-select>
@@ -27,10 +27,7 @@
                             <v-btn>b</v-btn>
                             <v-btn>c</v-btn>
                         </v-btn-toggle>
-                        <v-btn-toggle
-                            v-model="gradePlus"
-                            class="category-buttons ml-3"
-                        >
+                        <v-btn-toggle v-model="gradePlus" class="category-buttons ml-3">
                             <v-btn>+</v-btn>
                         </v-btn-toggle>
                     </div>
@@ -39,7 +36,6 @@
                             color="primary"
                             flat="flat"
                             @click="submit"
-                            large
                             :disabled="gradeDigit === null || gradeLetter === null"
                         >Ok</v-btn>
                     </div>
@@ -78,7 +74,7 @@
         methods: {
             submit() {
                 this.categoryDialog = false;
-                let categories = this.settings.dicts.categories;
+                let categories = this.settings.selects.categories;
                 for (let i = 0; i < categories.length; i++) {
                     if (categories[i].text === this.grade.toLowerCase()) {
                         this.gradeSelected = categories[i];

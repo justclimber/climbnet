@@ -8,23 +8,27 @@
     </div>
 </template>
 <script>
-    var format = require('date-fns/format');
+    import { mapState } from 'vuex';
     import '../functions.js';
     export default {
         props: ['climbedRoute'],
         computed: {
+            ...mapState(['settings']),
             routeTitle() {
-                var title = [];
+                let title = [];
+                if (this.climbedRoute.route_type_dict) {
+                    title.push(this.routeType(this.climbedRoute.route_type_dict));
+                }
                 if (this.climbedRoute.name) {
                     title.push(this.climbedRoute.name);
                 }
                 if (this.climbedRoute.category_dict) {
-                    title.push('{category} ({proposed_category})'.formatUnicorn({
-                        category: this.category(this.climbedRoute.category_dict),
-                        proposed_category: this.category(this.climbedRoute.proposed_category_dict)
-                    }));
+                    title.push(this.category(this.climbedRoute.category_dict));
                 } else {
                     title.push('?');
+                }
+                if (this.climbedRoute.proposed_category_dict) {
+                    title.push('(' + this.category(this.climbedRoute.proposed_category_dict) + ')');
                 }
                 if (this.climbedRoute.ascent_type_dict) {
                     title.push(this.ascentType(this.climbedRoute.ascent_type_dict));
@@ -34,20 +38,13 @@
         },
         methods: {
             category(category_dict) {
-                let categories = this.$store.state.settings.dicts.categories;
-                for (let i = 0; i < categories.length; i++) {
-                    if (category_dict === categories[i].value) {
-                        return categories[i].text;
-                    }
-                }
+                return this.settings.dicts.categories[category_dict];
+            },
+            routeType(route_type) {
+                return this.settings.dicts.route_types[route_type];
             },
             ascentType(ascent_type) {
-                let ascentTypes = this.$store.state.settings.dicts.ascent_types;
-                for (let i = 0; i < ascentTypes.length; i++) {
-                    if (ascent_type === ascentTypes[i].value) {
-                        return ascentTypes[i].text;
-                    }
-                }
+                return this.settings.dicts.ascent_types[ascent_type];
             }
         },
     }

@@ -15,11 +15,11 @@
                     </v-flex>
                 </v-layout>
                 <button-toggle-group
-                    :items="settings.dicts.route_types"
+                    :items="settings.selects.route_types"
                     v-model="route.route_type_dict"
                 >Route type</button-toggle-group>
                 <button-toggle-group
-                    :items="settings.dicts.ascent_types"
+                    :items="settings.selects.ascent_types"
                     v-model="route.ascent_type_dict"
                     useShortLabels="true"
                 >Ascent Type</button-toggle-group>
